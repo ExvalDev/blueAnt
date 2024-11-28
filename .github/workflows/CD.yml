@@ -1,0 +1,27 @@
+name: Deploy to IONOS Webspace
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Step 2: Deploy files to IONOS webspace via SFTP
+      - name: Deploy via SFTP
+        uses: appleboy/scp-action@v0.1.2
+        with:
+          host: ${{ secrets.SFTP_HOST }}      # Your IONOS server's host/IP
+          username: ${{ secrets.SFTP_USER }} # SFTP username
+          password: ${{ secrets.SFTP_PASS }} # SFTP password
+          port: 22                           # Default SFTP port
+          source: "./"                       # Directory to upload from (repo root)
+          target: "/blueAnt/"  # Remote directory (adjust accordingly)
+          rm: true                           # Optional: Remove remote files not in source
