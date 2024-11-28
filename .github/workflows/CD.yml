@@ -25,3 +25,4 @@ jobs:
                   source: './'
                   target: '/blueAnt'
                   rm: true
+                  debug: true
