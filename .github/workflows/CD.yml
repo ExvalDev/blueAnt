@@ -25,4 +25,7 @@ jobs:
                   SFTP_USER: ${{ secrets.SFTP_USER }}
                   SFTP_PASS: ${{ secrets.SFTP_PASS }}
               run: |
-                  sshpass -p "$SFTP_PASS" scp -r -o StrictHostKeyChecking=no ./blueAnt $SFTP_USER@$SFTP_HOST:/blueAnt/
+                  sshpass -p "$SFTP_PASS" sftp -o StrictHostKeyChecking=no $SFTP_USER@$SFTP_HOST << 'EOF'
+                  -mkdir /blueAnt
+                  put -r ./blueAnt /blueAnt/
+                  EOF
