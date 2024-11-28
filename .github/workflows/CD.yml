@@ -23,5 +23,5 @@ jobs:
                   password: ${{ secrets.SFTP_PASS }}
                   port: 22
                   source: './'
-                  target: '/htdocs/blueAnt/'
+                  target: '/blueAnt'
                   rm: true
