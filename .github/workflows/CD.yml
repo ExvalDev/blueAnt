@@ -1,4 +1,4 @@
-name: Deploy to IONOS Webspace
+name: Deploy to Server
 
 on:
     push:
@@ -11,18 +11,32 @@ jobs:
 
         steps:
             # Step 1: Check out the repository
-            - name: Checkout Code
+            - name: Checkout code
               uses: actions/checkout@v3
 
-            # Step 2: Deploy files to IONOS webspace via SFTP
-            - name: Deploy via SFTP
-              uses: appleboy/scp-action@v0.1.2
-              with:
-                  host: ${{ secrets.SFTP_HOST }}
-                  username: ${{ secrets.SFTP_USER }}
-                  password: ${{ secrets.SFTP_PASS }}
-                  port: 22
-                  source: './'
-                  target: '/blueAnt'
-                  rm: true
-                  debug: true
+            # Step 2: Archive the project directory
+            - name: Archive the blueAnt directory
+              run: tar -czf /tmp/blueAnt.tar.gz -C ./ blueAnt
+
+            # Step 3: Transfer the archive to the server
+            - name: Transfer archive to server via SCP
+              env:
+                  SFTP_HOST: ${{ secrets.SFTP_HOST }}
+                  SFTP_USER: ${{ secrets.SFTP_USER }}
+                  SFTP_PASS: ${{ secrets.SFTP_PASS }}
+              run: |
+                  echo "$SFTP_PASS" | sshpass ssh -o StrictHostKeyChecking=no $SFTP_USER@$SFTP_HOST "mkdir -p /path/to/target/"
+                  sshpass -p "$SFTP_PASS" scp -o StrictHostKeyChecking=no /tmp/blueAnt.tar.gz $SFTP_USER@$SFTP_HOST:/path/to/target/
+
+            # Step 4: Unpack the archive on the server
+            - name: Extract the archive on the server
+              env:
+                  SFTP_HOST: ${{ secrets.SFTP_HOST }}
+                  SFTP_USER: ${{ secrets.SFTP_USER }}
+                  SFTP_PASS: ${{ secrets.SFTP_PASS }}
+              run: |
+                  sshpass -p "$SFTP_PASS" ssh -o StrictHostKeyChecking=no $SFTP_USER@$SFTP_HOST << 'EOF'
+                  cd /path/to/target/
+                  tar -xzf blueAnt.tar.gz
+                  rm blueAnt.tar.gz
+                  EOF
