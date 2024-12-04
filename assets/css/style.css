@@ -64,12 +64,9 @@ main {
 
 .error {
     display: flex;
-    flex-direction: column;
-    height: 90%;
     justify-content: center;
     align-items: center;
-    width: 70%;
-    min-width: 70%;
+    height: 100vh;
 }
 
 .content-index,
@@ -87,29 +84,31 @@ main {
 }
 
 .topbar {
-    width: 98%;
+    width: 100%;
+    padding-right: 15px;
 }
 
 .list {
     overflow-y: scroll;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 10px;
+    padding-right: 15px;
 }
 
 .card,
 .card-header {
     background: var(--card-background);
     border-radius: 6px;
-    transition: 0.3s ease;
-    width: 98%;
     border: none;
     transition: background-color 0.3s ease, transform 0.2s ease;
+    padding: 12px;
 }
 
 .card:hover {
     background: var(--card-background-hover);
 }
+
 .card .bi {
     color: var(--primary-dark);
 }

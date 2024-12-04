@@ -1,100 +1,156 @@
 <?php
 
-require_once 'RequestService.php';
+require 'models/Project.php';
+require 'controllers/ProjectController.php';
+
+require 'services/StatusService.php';
+require 'services/PersonService.php';
+require 'services/RoleService.php';
+require 'services/DepartmentService.php';
+require 'services/PriorityService.php';
+require 'services/ProjectTypeService.php';
+require 'services/CustomerService.php';
+require 'services/CustomFieldService.php';
 
 class ProjectService
 {
-    private $requestService;
-    private $config;
+    private $projectController;
+    private $statusService;
+    private $personService;
+    private $roleService;
+    private $departmentService;
+    private $priorityService;
+    private $projectTypeService;
+    private $customerService;
+    private $customFieldService;
     private static $projects = null;
-    private static $activeProjects = [];
 
     public function __construct()
     {
-        $this->requestService = new RequestService();
-        $this->config = require __DIR__ . '/../config.php';
+
+        $this->projectController = new ProjectController();
+
+        $this->statusService = new StatusService();
+        $this->personService = new PersonService();
+        $this->roleService = new RoleService();
+        $this->departmentService = new DepartmentService();
+        $this->priorityService = new PriorityService();
+        $this->projectTypeService = new ProjectTypeService();
+        $this->customerService = new CustomerService();
+        $this->customFieldService = new CustomFieldService();
     }
 
-    private function fetchProjects()
+    public function getProjects(bool $refresh = false): array
     {
-        if (self::$projects === null) {
-            $response = $this->requestService->get($this->config['apiEndpoints']['projects']);
-            self::$projects = $response["projects"];
-
+        if (self::$projects === null || $refresh) {
+            self::$projects = [];
+            $response = $this->projectController->getProjects();
+            foreach ($response as $project) {
+                self::$projects[$project['id']] = new Project(
+                    $project['id'],
+                    $project['name'],
+                    $project['start'],
+                    $project['end'],
+                    $this->statusService->findStatusById($project['statusId']),
+                    $this->personService->findPersonById($project['projectLeaderId']),
+                    $this->roleService->findRoleById($project['projectLeaderRoleId']),
+                    $this->departmentService->findDepartmentById($project['departmentId']),
+                    $this->priorityService->findPriorityById($project['priorityId']),
+                    $this->projectTypeService->findProjectTypeById($project['typeId'])
+                );
+            }
         }
-
         return self::$projects;
     }
 
-    public function getProjectsFiltered(array $filters = []): array
+    private function filterProjects(array $projects, array $filter): array
     {
-        $projects = $this->fetchProjects();
+        return array_filter($projects, function ($project) use ($filter) {
+            foreach ($filter as $key => $filterValue) {
+                // Skip filter if value is null
+                if ($filterValue === null || $filterValue === [null]) {
+                    continue;
+                }
 
-        // Apply filters dynamically
-        $filteredProjects = array_filter($projects, function ($project) use ($filters) {
-            foreach ($filters as $key => $filterValue) {
-                // If the project doesn't have the key or doesn't match the filter, exclude it
-                if (!isset($project[$key])) {
-                    return false;
+                // Split nested keys (e.g., 'status.id' -> ['status', 'id'])
+                $keyParts = explode('.', $key);
+                $value = $project;
+
+                // Dynamically resolve nested getters
+                foreach ($keyParts as $part) {
+                    $getter = 'get' . ucfirst($part);
+
+                    if (!method_exists($value, $getter)) {
+                        return false; // Exclude if getter doesn't exist
+                    }
+
+                    $value = $value->$getter(); // Call the getter
                 }
 
                 if (is_array($filterValue)) {
-                    // Check if the project's value is in the filter array
-                    if (!in_array($project[$key], $filterValue, true)) {
-                        return false;
+                    if (!in_array($value, $filterValue, true)) {
+                        return false; // Exclude if value is not in the filter array
                     }
                 } else {
-                    // Check for direct equality
-                    if ($project[$key] !== $filterValue) {
-                        return false;
+                    if ($value !== $filterValue) {
+                        return false; // Exclude if value doesn't match
                     }
                 }
             }
             return true; // Include the project if all filters match
         });
+    }
 
-        return $filteredProjects;
+    public function getProjectsFiltered($selectedStatusId, $selectedDepartmentId, $selectedTypeId): array
+    {
+        try {
+            $projects = $this->getProjects();
+
+            $statuses = $this->statusService->getActiveStatuses();
+            $activeStatusIds = extractIds($statuses);
+
+            $filter = buildFilters([
+                'status.id' => $selectedStatusId === null ? $activeStatusIds : [$selectedStatusId],
+                'department.id' => [$selectedDepartmentId],
+                'type.id' => [$selectedTypeId]
+            ]);
+
+            return $this->filterProjects($projects, $filter);
+        } catch (Exception $e) {
+            error_log("Error filtering projects: " . $e->getMessage());
+            return []; // Return an empty array on failure
+        }
     }
 
     public function getProjectById($id)
     {
-        $endpoint = str_replace('{id}', $id, $this->config['apiEndpoints']['project']);
+        $project = $this->projectController->getProjectById($id);
 
-        try {
-            $response = $this->requestService->get($endpoint);
-
-            // Handle successful response
-            if ($response['status']['code'] === 200) {
-                return $response['project'];
-            }
-            if ($response['status']['code'] === 404) {
-                throw new Exception("Projekt $id wurde nicht gefunden.");
-            }
-
-            // Handle other unexpected errors
-            throw new Exception("Unexpected error: " . ($response['status']['message'] ?? 'Unknown error'));
-
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-            throw $e;
-        }
+        return new Project(
+            $project['id'],
+            $project['name'],
+            $project['start'],
+            $project['end'],
+            $this->statusService->getStatusById($project['statusId']),
+            $this->personService->getPersonById($project['projectLeaderId']),
+            $this->roleService->getRoleById($project['projectLeaderRoleId']),
+            $this->departmentService->getDepartmentById($project['departmentId']),
+            $this->priorityService->getPriorityById($project['priorityId']),
+            $this->projectTypeService->getProjectTypeById($project['typeId']),
+            $this->customerService->getCustomersFromProjectClients($project['clients']),
+            $this->customFieldService->getCustomFieldsOfProject($project['customFields'])
+        );
     }
 
-    // Get all cached statuses
-    public function getProjects()
+    public function findProjectById($projectId): ?Project
     {
-        return $this->fetchProjects();
-    }
+        $projects = $this->getProjects();
 
-
-    public function findProjectById($projectId)
-    {
-        $statuses = $this->fetchProjects();
-
-        if (isset($statuses[$projectId])) {
-            return $statuses[$projectId];
+        if (isset($projects[$projectId])) {
+            return $projects[$projectId];
         }
 
-        throw new Exception("Project with ID $projectId not found.");
+        error_log("Project with ID $projectId not found.");
+        return null; // Return null instead of throwing an exception
     }
 }

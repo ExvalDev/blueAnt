@@ -1,31 +1,28 @@
 <?php
 
-require_once 'RequestService.php';
+require_once 'RequestController.php';
 
-class TypeService
+class ProjectTypeController
 {
-    private $requestService;
+    private $requestController;
     private $config;
     private static $types = null;
 
     public function __construct()
     {
-        $this->requestService = new RequestService();
+        $this->requestController = new RequestController();
         $this->config = require __DIR__ . '/../config.php';
     }
 
-    private function fetchTypes()
+    public function getProjectTypes()
     {
         try {
             if (self::$types === null) {
-                $response = $this->requestService->get($this->config['apiEndpoints']['types']);
+                $response = $this->requestController->get($this->config['apiEndpoints']['types']);
                 if (!isset($response['types'])) {
                     throw new Exception('Types not found in API response');
                 }
-                self::$types = [];
-                foreach ($response['types'] as $type) {
-                    self::$types[$type['id']] = $type;
-                }
+                self::$types = $response['types'];
             }
 
             return self::$types;
@@ -35,11 +32,11 @@ class TypeService
 
     }
 
-    public function getTypeById($id)
+    public function getProjectTypeById($id)
     {
         try {
             $endpoint = str_replace('{id}', $id, $this->config['apiEndpoints']['type']);
-            $response = $this->requestService->get($endpoint);
+            $response = $this->requestController->get($endpoint);
             if (!isset($response['type'])) {
                 throw new Exception('Type not found in API response');
             }
@@ -47,23 +44,5 @@ class TypeService
         } catch (Exception $e) {
             error_log($e->getMessage());
         }
-    }
-
-    // Get all cached types
-    public function getTypes()
-    {
-        return $this->fetchTypes();
-    }
-
-
-    public function findTypeById($typeId)
-    {
-        $types = $this->fetchTypes();
-
-        if (isset($types[$typeId])) {
-            return $types[$typeId];
-        }
-
-        throw new Exception("Type with ID $typeId not found.");
     }
 }

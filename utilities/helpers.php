@@ -20,12 +20,10 @@ if (!function_exists('transformDate')) {
 }
 
 if (!function_exists('extractIds')) {
-    function extractIds($array)
+    function extractIds(array $objects): array
     {
-        $ids = array_map(function ($object) {
-            return $object['id'];
-        }, $array);
-        return $ids;
+        // Use array_map and reset keys with array_values
+        return array_values(array_map(fn($obj) => $obj->getId(), $objects));
     }
 }
 

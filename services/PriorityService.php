@@ -1,69 +1,42 @@
 <?php
 
-require_once 'RequestService.php';
+require 'models/Priority.php';
+require 'controllers/PriorityController.php';
 
 class PriorityService
 {
-    private $requestService;
-    private $config;
-    private static $priorities = null; // Static property to cache statuses
+    private $priorityController;
+    private static $priorities = null;
 
-    // Constructor to load configuration
     public function __construct()
     {
-        $this->requestService = new RequestService();
-        $this->config = require __DIR__ . '/../config.php';
+        $this->priorityController = new PriorityController();
     }
 
-    // Fetch all statuses and cache them
-    private function fetchPriorities()
+    private function getPriorities(): array
     {
-        try {
-            if (self::$priorities === null) {
-                $response = $this->requestService->get($this->config['apiEndpoints']['priorities']);
-                if (!isset($response['priorities'])) {
-                    throw new Exception('Priorities not found in API response');
-                }
-                self::$priorities = [];
-                foreach ($response['priorities'] as $priority) {
-                    self::$priorities[$priority['id']] = $priority;
-                }
-            }
-            return self::$priorities;
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+        self::$priorities = [];
+        $response = $this->priorityController->getPriorities();
+        foreach ($response as $priority) {
+            self::$priorities[$priority['id']] = new Priority($priority['id'], $priority['text']);
         }
-
+        return self::$priorities;
     }
 
-    public function getPriorities()
+    public function getPriorityById(string $id): Priority
     {
-        return $this->fetchPriorities();
-    }
-
-    public function getPriorityById($id)
-    {
-        try {
-            $endpoint = str_replace('{id}', $id, $this->config['apiEndpoints']['priority']);
-            $response = $this->requestService->get($endpoint);
-            if (!isset($response['priority'])) {
-                throw new Exception('Priority not found in API response');
-            }
-            return $response['priority'];
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-        }
-
+        $priority = $this->priorityController->getPriorityById($id);
+        return new Priority($priority['id'], $priority['text']);
     }
 
     public function findPriorityById($priorityId)
     {
-        $priorities = $this->fetchPriorities();
+        $priorities = $this->getPriorities();
 
         if (isset($priorities[$priorityId])) {
             return $priorities[$priorityId];
         }
 
-        throw new Exception("Priority with ID $priorityId not found.");
+        throw new Exception("[PriorityService] Priority with ID $priorityId not found.");
     }
 }

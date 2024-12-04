@@ -1,66 +1,40 @@
 <?php
 
-require_once 'RequestService.php';
+require 'models/Department.php';
+require 'controllers/DepartmentController.php';
 
 class DepartmentService
 {
-    private $requestService;
-    private $config;
+    private $departmentController;
     private static $departments = null;
 
     public function __construct()
     {
-        $this->requestService = new RequestService();
-        $this->config = require __DIR__ . '/../config.php';
+        $this->departmentController = new DepartmentController();
     }
 
-    private function fetchDepartments()
+    public function getDepartments(): array
     {
-        try {
-            if (self::$departments === null) {
-                $response = $this->requestService->get($this->config['apiEndpoints']['departments']);
-                if (!isset($response['departments'])) {
-                    throw new Exception('Departments not found in API response');
-                }
-                self::$departments = [];
-
-                foreach ($response['departments'] as $department) {
-                    self::$departments[$department['id']] = $department;
-                }
-            }
-            return self::$departments;
-        } catch (Exception $e) {
-            error_log($e->getMessage());
+        self::$departments = [];
+        $response = $this->departmentController->getDepartments();
+        foreach ($response as $department) {
+            self::$departments[$department['id']] = new Department($department['id'], $department['text']);
         }
+        return self::$departments;
     }
 
-    public function getDepartmentById($id)
+    public function getDepartmentById(string $id): Department
     {
-        try {
-            $endpoint = str_replace('{id}', $id, $this->config['apiEndpoints']['department']);
-            $response = $this->requestService->get($endpoint);
-            if (!isset($response['department'])) {
-                throw new Exception("Department data not found in API response for ID: {$id}");
-            }
-            return $response['department'];
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-        }
+        $department = $this->departmentController->getDepartmentById($id);
+        return new Department($department['id'], $department['text']);
     }
-
-    // Get all cached statuses
-    public function getDepartments()
-    {
-        return $this->fetchDepartments();
-    }
-
 
     public function findDepartmentById($departmentId)
     {
-        $statuses = $this->fetchDepartments();
+        $departments = $this->getDepartments();
 
-        if (isset($statuses[$departmentId])) {
-            return $statuses[$departmentId];
+        if (isset($departments[$departmentId])) {
+            return $departments[$departmentId];
         }
 
         throw new Exception("Department with ID $departmentId not found.");

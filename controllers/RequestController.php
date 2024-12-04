@@ -1,6 +1,6 @@
 <?php
 
-class RequestService
+class RequestController
 {
     private $baseUrl;
     private $bearerToken;

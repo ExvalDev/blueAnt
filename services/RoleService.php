@@ -1,64 +1,37 @@
 <?php
 
-require_once 'RequestService.php';
+require 'models/Role.php';
+require 'controllers/RoleController.php';
 
 class RoleService
 {
-    private $requestService;
-    private $config;
+    private $roleController;
     private static $roles = null;
 
     public function __construct()
     {
-        $this->requestService = new RequestService();
-        $this->config = require __DIR__ . '/../config.php';
+        $this->roleController = new RoleController();
     }
 
-    private function fetchRoles()
+    public function getRoles(): array
     {
-        try {
-            if (self::$roles === null) {
-                $response = $this->requestService->get($this->config['apiEndpoints']['roles']);
-                if (!isset($response['roles'])) {
-                    throw new Exception('Roles not found in API response');
-                }
-                self::$roles = [];
-                foreach ($response['roles'] as $role) {
-                    self::$roles[$role['id']] = $role;
-                }
-            }
-
-            return self::$roles;
-        } catch (Exception $e) {
-            error_log($e->getMessage());
+        self::$roles = [];
+        $response = $this->roleController->getRoles();
+        foreach ($response as $role) {
+            self::$roles[$role['id']] = new Role($role['id'], $role['text']);
         }
+        return self::$roles;
     }
 
-    public function getRoleById($id)
+    public function getRoleById(string $id): Role
     {
-        try {
-            $endpoint = str_replace('{id}', $id, $this->config['apiEndpoints']['role']);
-            $response = $this->requestService->get($endpoint);
-            if (!isset($response['role'])) {
-                throw new Exception('Role not found in API response');
-            }
-            return $response['role'];
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-        }
-
+        $role = $this->roleController->getRoleById($id);
+        return new Role($role['id'], $role['text']);
     }
-
-    // Get all cached roles
-    public function getRoles()
-    {
-        return $this->fetchRoles();
-    }
-
 
     public function findRoleById($roleId)
     {
-        $roles = $this->fetchRoles();
+        $roles = $this->getRoles();
 
         if (isset($roles[$roleId])) {
             return $roles[$roleId];

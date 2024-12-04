@@ -12,10 +12,12 @@ function renderError(string $message, string $type = 'danger', bool $includeFoot
     $footer = $includeFooter ? includeFooter() : '';
 
     return "
-    <div class='error d-flex gap-4'>
-        <h1 class='fs-1 fw-bold'>Ups...</h1>
-        <div class='alert alert-{$type} text-center' role='alert'>
-            " . htmlspecialchars($message) . "
+    <div class='error'>
+        <div class='d-flex gap-4 flex-column align-items-center'>
+            <h1 class='fs-1 fw-bold'>Ups...</h1>
+            <div class='alert alert-{$type} text-center' role='alert'>
+                " . htmlspecialchars($message) . "
+            </div>
         </div>
     </div>
     {$footer}";

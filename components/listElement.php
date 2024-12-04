@@ -1,22 +1,31 @@
 <?php
 require_once 'utilities/Phases.php';
-function renderListElement($projectId, $name, $startDate, $endDate, $priority, $status, int $phase)
+function renderListElement(Project $project)
 {
-    $phaseEnum = Phase::tryFrom($phase);
+    $phaseEnum = Phase::tryFrom($project->getStatus()->getPhase());
     $phaseColor = $phaseEnum->getColor();
 
+    $projectId = $project->getId();
+    $name = $project->getName();
+    $startDate = transformDate($project->getStartDate());
+    $endDate = transformDate($project->getEndDate());
+    $priority = $project->getPriority()->getName();
+    $phase = $project->getStatus()->getPhase();
+    $status = $project->getStatus()->getName();
+
+
     return "
-    <a class='card d-flex flex-row align-items-center justify-content-between p-3 text-decoration-none' href='/project.php?projectId=$projectId'>
-        <div class='d-flex align-items-center w-75'>
-            <div class='row w-100 align-items-center'>
-                <div class='col-3'>
-                    <span class='badge rounded-pill fw-bold badge-primary'>$projectId</span>
-                </div>
-                <div class='col-9'>
-                    <h5 class='mb-0'>$name</h5>
-                    <small class='text-muted'>$startDate - $endDate</small>
-                </div>
+    <a class='card d-flex flex-col text-decoration-none' href='/project.php?projectId=$projectId'>
+        <div class='d-flex justify-content-between'>
+            <div>
+                <h5 class='mb-0'>$name</h5>
+                <small class='text-muted'>$startDate - $endDate</small>
             </div>
+            <div>
+                <span class='badge rounded-pill fw-bold badge-primary'>$projectId</span>
+            </div>
+        </div>
+        <div class='d-flex'>
         </div>
         <div class='d-flex align-items-center gap-3'>
             <span class='badge rounded-pill bg-secondary' data-bs-toggle='tooltip' data-bs-placement='top' title='Priorität'>$priority</span>
@@ -25,4 +34,3 @@ function renderListElement($projectId, $name, $startDate, $endDate, $priority, $
         </div>
     </a>";
 }
-?>

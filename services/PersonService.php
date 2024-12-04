@@ -1,70 +1,55 @@
 <?php
 
-require_once 'RequestService.php';
+require 'models/Person.php';
+require 'controllers/PersonController.php';
 
 class PersonService
 {
-    private $requestService;
-    private $config;
+    private $personController;
     private static $persons = null;
 
     public function __construct()
     {
-        $this->requestService = new RequestService();
-        $this->config = require __DIR__ . '/../config.php';
+        $this->personController = new PersonController();
     }
 
-    private function fetchPersons()
+    public function getPersons(): array
     {
-        try {
-            if (self::$persons === null) {
-                $response = $this->requestService->get($this->config['apiEndpoints']['persons']);
-                if (!isset($response['persons'])) {
-                    throw new Exception('Persons not found in API response');
-                }
-                self::$persons = [];
-                foreach ($response['persons'] as $person) {
-                    self::$persons[$person['id']] = $person;
-                }
+        if (self::$persons === null) {
+            self::$persons = [];
+            $response = $this->personController->getPersons();
+            foreach ($response as $person) {
+                self::$persons[$person['id']] = new Person(
+                    $person['id'],
+                    $person['firstname'],
+                    $person['lastname'],
+                    $person['email']
+                );
             }
-            return self::$persons;
-        } catch (Exception $e) {
-            error_log($e->getMessage());
         }
-
+        return self::$persons;
     }
 
-    public function getPersonById($id)
+    public function getPersonById(string $id): Person
     {
-        try {
-            $endpoint = str_replace('{id}', $id, $this->config['apiEndpoints']['person']);
-            $response = $this->requestService->get($endpoint);
-            if (!isset($response['person'])) {
-                throw new Exception('Person not found in API response');
-            }
-            return $response['person'];
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-        }
-
-
+        $personData = $this->personController->getPersonById($id);
+        return new Person(
+            $personData['id'],
+            $personData['firstname'],
+            $personData['lastname'],
+            $personData['email']
+        );
     }
 
-    // Get all cached persons
-    public function getPersons()
+    public function findPersonById(int $personId): Person|null
     {
-        return $this->fetchPersons();
-    }
-
-
-    public function findPersonById($personId)
-    {
-        $persons = $this->fetchPersons();
+        $persons = $this->getPersons();
 
         if (isset($persons[$personId])) {
             return $persons[$personId];
         }
 
-        throw new Exception("Person with ID $personId not found.");
+        error_log("[PersonService] Person with ID $personId not found.");
+        return null;
     }
 }
