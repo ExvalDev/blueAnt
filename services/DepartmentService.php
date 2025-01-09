@@ -3,7 +3,8 @@
 require 'models/Department.php';
 require 'controllers/DepartmentController.php';
 
-class DepartmentService
+
+class DepartmentService //implements serviceInterface
 {
     private $departmentController;
     private static $departments = null;

@@ -9,10 +9,9 @@ require 'services/RoleService.php';
 require 'services/DepartmentService.php';
 require 'services/PriorityService.php';
 require 'services/ProjectTypeService.php';
-require 'services/CustomerService.php';
 require 'services/CustomFieldService.php';
 
-class ProjectService
+class ProjectService //implements serviceInterface
 {
     private $projectController;
     private $statusService;
@@ -21,22 +20,18 @@ class ProjectService
     private $departmentService;
     private $priorityService;
     private $projectTypeService;
-    private $customerService;
     private $customFieldService;
     private static $projects = null;
 
     public function __construct()
     {
-
         $this->projectController = new ProjectController();
-
         $this->statusService = new StatusService();
         $this->personService = new PersonService();
         $this->roleService = new RoleService();
         $this->departmentService = new DepartmentService();
         $this->priorityService = new PriorityService();
         $this->projectTypeService = new ProjectTypeService();
-        $this->customerService = new CustomerService();
         $this->customFieldService = new CustomFieldService();
     }
 
@@ -45,6 +40,8 @@ class ProjectService
         if (self::$projects === null || $refresh) {
             self::$projects = [];
             $response = $this->projectController->getProjects();
+
+        
             foreach ($response as $project) {
                 self::$projects[$project['id']] = new Project(
                     $project['id'],
@@ -57,8 +54,13 @@ class ProjectService
                     $this->departmentService->findDepartmentById($project['departmentId']),
                     $this->priorityService->findPriorityById($project['priorityId']),
                     $this->projectTypeService->findProjectTypeById($project['typeId']),
+                    $subjectMemo,
                     $project['subjectMemo'] ?? "",
                     $this->customerService->getCustomersFromProjectClients($project['clients']),
+                    $project['subjectMemo'],
+                    $project['objectiveMemo']
+
+
                 );
             }
         }

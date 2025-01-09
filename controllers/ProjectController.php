@@ -17,8 +17,13 @@ class ProjectController
 
     public function getProjects()
     {
+        $config = $this->config['apiEndpoints']['projects'];
+        $params = array(
+            'includeMemoFields' => 'true'
+        );
         if (self::$projects === null) {
-            $response = $this->requestController->get($this->config['apiEndpoints']['projects']);
+
+            $response = $this->requestController->get($config, $params);
             self::$projects = $response["projects"];
 
         }

@@ -3,7 +3,8 @@
 require 'models/ProjectType.php';
 require 'controllers/ProjectTypeController.php';
 
-class ProjectTypeService
+
+class ProjectTypeService //implements serviceInterface
 {
     private $projectTypeController;
     private static $projectTypes = null;
