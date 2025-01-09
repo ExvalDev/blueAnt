@@ -13,8 +13,8 @@ class Project
     private Priority $priority;
     private ProjectType $type;
     private array $customers;
-
     private array $customFields;
+    private string $subjectMemo;
 
 
     public function __construct(
@@ -28,8 +28,10 @@ class Project
         Department $department,
         Priority $priority,
         ProjectType $type,
+        string $subjectMemo = "",
         array $customers = [],
-        array $customFields = []
+        array $customFields = [],
+
     ) {
         $this->id = $id;
         $this->name = $name;
@@ -41,6 +43,7 @@ class Project
         $this->department = $department;
         $this->priority = $priority;
         $this->type = $type;
+        $this->subjectMemo = $subjectMemo;
         $this->customers = $customers;
         $this->customFields = $customFields;
     }
@@ -156,6 +159,15 @@ class Project
     public function setCustomFields($customFields)
     {
         $this->customFields = $customFields;
+        return $this;
+    }
+    public function getSubjectMemo()
+    {
+        return $this->subjectMemo;
+    }
+    public function setSubjectMemo($subjectMemo)
+    {
+        $this->subjectMemo = $subjectMemo;
         return $this;
     }
     public function __toString(): string

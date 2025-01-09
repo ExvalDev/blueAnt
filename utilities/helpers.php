@@ -32,7 +32,7 @@ if (!function_exists('buildFilters')) {
     {
         return array_filter(
             $possibleFilters,
-            fn($value) => !empty ($value) && array_filter($value, fn($v) => $v !== 0) // Exclude arrays with only 0
+            fn($value) => !empty($value) && array_filter($value, fn($v) => $v !== 0) // Exclude arrays with only 0
         );
     }
 }
@@ -41,5 +41,17 @@ if (!function_exists('getQueryParam')) {
     function getQueryParam(string $key, $default = null)
     {
         return isset($_GET[$key]) ? $_GET[$key] : $default;
+    }
+}
+
+if (!function_exists("searchCustomFieldByName")) {
+    function searchCustomFieldByName(array $customFields, string $searchName): ?CustomField
+    {
+        foreach ($customFields as $customField) {
+            if ($customField instanceof CustomField && $customField->getName() === $searchName) {
+                return $customField;
+            }
+        }
+        return null;
     }
 }

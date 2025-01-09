@@ -4,7 +4,7 @@ return [
     'baseUrl' => 'https://dashboard-examples.blueant.cloud/rest',
     'bearerToken' => 'eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3OTkzMjYyMjkiLCJpYXQiOjE3MzE1MDA5MzQsImlzcyI6IkJsdWUgQW50wqkiLCJleHAiOjE4ODkxODA5MzR9.ycX7nHJQH2nJSvURAmHOGebzElw9BzIgwyafRfDcJUY',   // Replace with your Bearer token
     'apiEndpoints' => [
-        'projects' => '/v1/projects',
+        'projects' => '/v1/projects?includeMemoFields=true',
         'project' => '/v1/projects/{id}',
         'statuses' => '/v1/masterdata/projects/statuses',
         'status' => '/v1/masterdata/projects/statuses/{id}',
@@ -23,5 +23,7 @@ return [
         "customerTypes" => "/v1/masterdata/customers/types",
         "customerType" => "/v1/masterdata/customers/types/{id}",
         "customFields" => "/v1/masterdata/customfield/definitions/Project"
-    ]
+    ],
+    'customListBox' => "Strategiebeitrag",
+    'customCalculated' => "Score"
 ];

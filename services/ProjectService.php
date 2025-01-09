@@ -56,7 +56,9 @@ class ProjectService
                     $this->roleService->findRoleById($project['projectLeaderRoleId']),
                     $this->departmentService->findDepartmentById($project['departmentId']),
                     $this->priorityService->findPriorityById($project['priorityId']),
-                    $this->projectTypeService->findProjectTypeById($project['typeId'])
+                    $this->projectTypeService->findProjectTypeById($project['typeId']),
+                    $project['subjectMemo'] ?? "",
+                    $this->customerService->getCustomersFromProjectClients($project['clients']),
                 );
             }
         }
@@ -137,8 +139,10 @@ class ProjectService
             $this->departmentService->getDepartmentById($project['departmentId']),
             $this->priorityService->getPriorityById($project['priorityId']),
             $this->projectTypeService->getProjectTypeById($project['typeId']),
+            $project['subjectMemo'],
             $this->customerService->getCustomersFromProjectClients($project['clients']),
-            $this->customFieldService->getCustomFieldsOfProject($project['customFields'])
+            $this->customFieldService->getCustomFieldsOfProject($project['customFields']),
+
         );
     }
 
