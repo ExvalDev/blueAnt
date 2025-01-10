@@ -11,6 +11,8 @@ require 'services/PriorityService.php';
 require 'services/ProjectTypeService.php';
 require 'services/CustomerService.php';
 require 'services/CustomFieldService.php';
+require 'services/PlanningEntryService.php';
+
 
 class ProjectService
 {
@@ -23,13 +25,14 @@ class ProjectService
     private $projectTypeService;
     private $customerService;
     private $customFieldService;
+
+    private $planningEntryService;
     private static $projects = null;
 
     public function __construct()
     {
 
         $this->projectController = new ProjectController();
-
         $this->statusService = new StatusService();
         $this->personService = new PersonService();
         $this->roleService = new RoleService();
@@ -38,6 +41,7 @@ class ProjectService
         $this->projectTypeService = new ProjectTypeService();
         $this->customerService = new CustomerService();
         $this->customFieldService = new CustomFieldService();
+        $this->planningEntryService = new PlanningEntryService();
     }
 
     public function getProjects(bool $refresh = false): array
@@ -58,7 +62,8 @@ class ProjectService
                     $this->priorityService->findPriorityById($project['priorityId']),
                     $this->projectTypeService->findProjectTypeById($project['typeId']),
                     $project['subjectMemo'] ?? "",
-                    $this->customerService->getCustomersFromProjectClients($project['clients']),
+                    $project['objectiveMemo'] ?? "",
+                    $this->customerService->getCustomersFromProjectClients(projectClients: $project['clients']),
                 );
             }
         }
@@ -139,9 +144,11 @@ class ProjectService
             $this->departmentService->getDepartmentById($project['departmentId']),
             $this->priorityService->getPriorityById($project['priorityId']),
             $this->projectTypeService->getProjectTypeById($project['typeId']),
-            $project['subjectMemo'],
+            $project['subjectMemo'] ?? "",
+            $project['objectiveMemo'] ?? "",
             $this->customerService->getCustomersFromProjectClients($project['clients']),
             $this->customFieldService->getCustomFieldsOfProject($project['customFields']),
+            $this->planningEntryService->getPlanningEntriesByProjectId($project['id'])
 
         );
     }

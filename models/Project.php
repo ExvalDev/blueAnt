@@ -15,6 +15,8 @@ class Project
     private array $customers;
     private array $customFields;
     private string $subjectMemo;
+    private string $objectiveMemo;
+    private array $planningEntries;
 
 
     public function __construct(
@@ -29,8 +31,10 @@ class Project
         Priority $priority,
         ProjectType $type,
         string $subjectMemo = "",
+        string $objectiveMemo = "",
         array $customers = [],
         array $customFields = [],
+        array $planningEntries =[], 
 
     ) {
         $this->id = $id;
@@ -44,8 +48,10 @@ class Project
         $this->priority = $priority;
         $this->type = $type;
         $this->subjectMemo = $subjectMemo;
+        $this->objectiveMemo = $objectiveMemo;
         $this->customers = $customers;
         $this->customFields = $customFields;
+        $this->planningEntries = $planningEntries;
     }
 
     public function getId()
@@ -170,6 +176,24 @@ class Project
         $this->subjectMemo = $subjectMemo;
         return $this;
     }
+    public function getObjectivememo()
+    {
+        return $this->objectiveMemo;
+    }
+    public function setObjectivememo($objectiveMemo)
+    {
+        $this->objectiveMemo = $objectiveMemo;
+        return $this;
+    }
+    public function getPlanningEntries()
+    {
+        return $this->planningEntries;
+    }
+    public function setPlanningEntries($planningEntries){
+        $this->planningEntries = $planningEntries;
+        return $this;
+    }
+
     public function __toString(): string
     {
         return strval($this->id) . '  | ' . $this->name . ' | ' . $this->startDate . ' | ' . $this->endDate . ' | ' . $this->status . ' | ' . $this->projectLeader . ' | ' . $this->projectLeaderRole . ' | ' . $this->department . ' | ' . $this->priority . ' | ' . $this->type;
