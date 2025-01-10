@@ -24,8 +24,32 @@ try {
 
     $projects = $projectService->getProjectsFiltered($selectedStatusId, $selectedDepartmentId, $selectedTypeId);
     $activeStatuses = $statusService->getActiveStatuses();
+
+    // Now $activeStatuses is sorted alphabetically by getName()
+
     $departments = $departmentService->getDepartments();
+
+    // Sort the array alphabetically based on the getName() method
+    usort($departments, function($departmentA, $departmentB) {
+        // Get the name from both status objects
+        $nameA = $departmentA->getName();
+        $nameB = $departmentB->getName();
+        
+        // Compare the names alphabetically
+        return strcmp($nameA, $nameB);
+    });
+
     $projectTypes = $projectTypeService->getProjectTypes();
+
+    // Sort the array alphabetically based on the getName() method
+    usort($projectTypes, function($projectTypesA, $projectTypesB) {
+        // Get the name from both status objects
+        $nameA = $projectTypesA->getName();
+        $nameB = $projectTypesB->getName();
+        
+        // Compare the names alphabetically
+        return strcmp($nameA, $nameB);
+    });
 
     ?>
     <main>
