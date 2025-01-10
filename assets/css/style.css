@@ -109,12 +109,14 @@ main {
 
 .card:hover {
     background: var(--card-background-hover);
+   
 }
 
-.card:hover .subjectMemo{
+.card:hover .subjectMemoField{
     white-space: unset;
     overflow: unset;
     text-overflow: unset;
+
 
 }
 
