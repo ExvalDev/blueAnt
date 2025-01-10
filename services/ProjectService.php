@@ -10,6 +10,8 @@ require 'services/DepartmentService.php';
 require 'services/PriorityService.php';
 require 'services/ProjectTypeService.php';
 require 'services/CustomFieldService.php';
+require 'services/PlanningEntryService.php';
+
 
 class ProjectService //implements serviceInterface
 {
@@ -21,6 +23,8 @@ class ProjectService //implements serviceInterface
     private $priorityService;
     private $projectTypeService;
     private $customFieldService;
+
+    private $planningEntryService;
     private static $projects = null;
 
     public function __construct()
@@ -33,6 +37,7 @@ class ProjectService //implements serviceInterface
         $this->priorityService = new PriorityService();
         $this->projectTypeService = new ProjectTypeService();
         $this->customFieldService = new CustomFieldService();
+        $this->planningEntryService = new PlanningEntryService();
     }
 
     public function getProjects(bool $refresh = false): array
@@ -55,8 +60,8 @@ class ProjectService //implements serviceInterface
                     $this->priorityService->findPriorityById($project['priorityId']),
                     $this->projectTypeService->findProjectTypeById($project['typeId']),
                     $project['subjectMemo'] ?? "",
-                    $project['objectiveMemo'] ?? ""
-
+                    $project['objectiveMemo'] ?? "",
+                    $this->customerService->getCustomersFromProjectClients(projectClients: $project['clients']),
 
                 );
             }
@@ -140,7 +145,9 @@ class ProjectService //implements serviceInterface
             $this->projectTypeService->getProjectTypeById($project['typeId']),
             $project['subjectMemo'] ?? "",
             $project['objectiveMemo'] ?? "",
+            $this->customerService->getCustomersFromProjectClients($project['clients']),
             $this->customFieldService->getCustomFieldsOfProject($project['customFields']),
+            $this->planningEntryService->getPlanningEntriesByProjectId($project['id'])
 
         );
     }
