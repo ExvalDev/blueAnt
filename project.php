@@ -63,7 +63,7 @@ $phaseColor = $phaseEnum->getColor();
                 </div>
                 <div class="tile p-3">
                     <div>
-                        <h3>Status</h3>
+                        <h2>Status</h2>
                         <span class='badge rounded-pill text-truncate'
                               style='background-color: <?php echo $phaseColor; ?>;'
                               data-bs-toggle='tooltip' data-bs-placement='top'
@@ -72,7 +72,7 @@ $phaseColor = $phaseEnum->getColor();
                     </span>
                     </div>
                     <div>
-                        <h3>Priorität</h3>
+                        <h2>Priorität</h2>
                         <span class='badge rounded-pill bg-secondary' data-bs-toggle='tooltip' data-bs-placement='top'
                               title='Priorität'><?php echo $project->getPriority()->getName(); ?></span>
                     </div>
@@ -80,7 +80,7 @@ $phaseColor = $phaseEnum->getColor();
                 </div>
                 <div class="d-flex flex-column gap-2">
                     <div class="tile p-3">
-                        <h3><?= $project->getProjectLeaderRole()->getTitle() ?></h3>
+                        <h2><?= $project->getProjectLeaderRole()->getTitle() ?></h2>
                         <div class="row">
                             <div class="col-3">
                                 <input class="form-control" type="text"
@@ -97,7 +97,7 @@ $phaseColor = $phaseEnum->getColor();
                         </div>
                     </div>
                     <div class="tile p-3">
-                        <h3>Kunde</h3>
+                        <h2>Kunde</h2>
                         <div class="d-flex flex-row gap-2">
                             <?php
                             if (count($project->getCustomers()) > 0) {
@@ -119,18 +119,40 @@ $phaseColor = $phaseEnum->getColor();
                     </div>
                 </div>
             </div>
+
+            <!-- Projektgegenstand -->
             <div class="custom-fields p-3 d-flex flex-column gap-3">
                 <h2>Gegenstand</h2>
                 <div class="d-flex flex-column gap-2">
-                    Text für Projektgegenstand
+                    Test
                 </div>
             </div>
-            <div class="custom-fields p-3 d-flex flex-column gap-3">
-                <h2>Meilensteine</h2>
-                <div class="d-flex flex-column gap-2">
-                    Meilensteine Zeug Format
-                </div>
+
+        
+        <!--Meilensteine-->
+        <div class="custom-fields p-3 d-flex flex-column gap-3">
+        <h2 class="mb-4">Meilensteine</h2>
+        <div class="milestone-container">
+            <!-- Ein Meilenstein mit Linie -->
+            <div class="dashed-line"></div>
+            <div class="milestone">
+                <div class="diamond"></div>
+                <span class="text-muted">10.11.2019</span>
+                <strong>Freigabe</strong>
             </div>
+
+            <!-- Ein Meilenstein mit Linie -->
+            <div class="dashed-line"></div>
+            <div class="milestone">
+                <div class="diamond"></div>
+                <span class="text-muted">28.01.2020</span>
+                <strong>Endabnahme</strong>
+            </div>
+
+        </div>
+        </div>
+
+
             <div class="custom-fields p-3 d-flex flex-column gap-3">
                 <h2>Benutzerdefinierte Felder</h2>
                 <div class="d-flex flex-column gap-2">
