@@ -10,6 +10,7 @@ require 'services/DepartmentService.php';
 require 'services/PriorityService.php';
 require 'services/ProjectTypeService.php';
 require 'services/CustomFieldService.php';
+require 'services/CustomerService.php';
 
 class ProjectService //implements serviceInterface
 {
@@ -20,6 +21,7 @@ class ProjectService //implements serviceInterface
     private $departmentService;
     private $priorityService;
     private $projectTypeService;
+    private $customerService;
     private $customFieldService;
     private static $projects = null;
 
@@ -33,6 +35,7 @@ class ProjectService //implements serviceInterface
         $this->priorityService = new PriorityService();
         $this->projectTypeService = new ProjectTypeService();
         $this->customFieldService = new CustomFieldService();
+        $this->customerService = new CustomerService();
     }
 
     public function getProjects(bool $refresh = false): array
@@ -55,6 +58,7 @@ class ProjectService //implements serviceInterface
                     $this->priorityService->findPriorityById($project['priorityId']),
                     $this->projectTypeService->findProjectTypeById($project['typeId']),
                     $project['subjectMemo'] ?? "",
+                    $this->customerService->getCustomersFromProjectClients($project['clients']),
                     $project['objectiveMemo'] ?? ""
 
 
@@ -139,11 +143,17 @@ class ProjectService //implements serviceInterface
             $this->priorityService->getPriorityById($project['priorityId']),
             $this->projectTypeService->getProjectTypeById($project['typeId']),
             $project['subjectMemo'] ?? "",
+            $this->customerService->getCustomersFromProjectClients($project['clients']),
             $project['objectiveMemo'] ?? "",
             $this->customFieldService->getCustomFieldsOfProject($project['customFields']),
 
         );
     }
+
+    // Available Array Keys
+    // id,currencyId,departmentId,typeId,statusId,clients,priorityId,projectLeaderId,projectLeaderRoleId,name,number,costCentreNumber,
+    // isTemplate,isArchived,customFields,planningType,billingType,revenueEvaluation,start,end
+
 
     public function findProjectById($projectId): ?Project
     {

@@ -1,5 +1,5 @@
 <?php
-include 'components/detailViewHeader.php';
+include 'components/header.php';
 require 'components/error.php';
 require 'services/ProjectService.php';
 require 'utilities/helpers.php';
@@ -20,7 +20,7 @@ try {
 $phaseEnum = Phase::tryFrom($project->getStatus()->getPhase());
 $phaseColor = $phaseEnum->getColor();
 
-$config = $this->config['apiEndpoints']['projects']
+//$config = $this->config['apiEndpoints']['projects']
 ?>
 
 <main>
@@ -79,7 +79,7 @@ $config = $this->config['apiEndpoints']['projects']
 
                 </div>
                 <div class="d-flex flex-column gap-2">
-                    <div class="tile p-3 h-50">
+                    <div class="tile p-3">
                         <h3><?= $project->getProjectLeaderRole()->getTitle() ?></h3>
                         <div class="row">
                             <div class="col-3">
@@ -96,7 +96,7 @@ $config = $this->config['apiEndpoints']['projects']
                             </div>
                         </div>
                     </div>
-                    <div class="tile p-3 h-50">
+                    <div class="tile p-3">
                         <h3>Kunde</h3>
                         <div class="d-flex flex-row gap-2">
                             <?php
@@ -117,6 +117,18 @@ $config = $this->config['apiEndpoints']['projects']
                             ?>
                         </div>
                     </div>
+                </div>
+            </div>
+            <div class="custom-fields p-3 d-flex flex-column gap-3">
+                <h2>Gegenstand</h2>
+                <div class="d-flex flex-column gap-2">
+                    Text für Projektgegenstand
+                </div>
+            </div>
+            <div class="custom-fields p-3 d-flex flex-column gap-3">
+                <h2>Meilensteine</h2>
+                <div class="d-flex flex-column gap-2">
+                    Meilensteine Zeug Format
                 </div>
             </div>
             <div class="custom-fields p-3 d-flex flex-column gap-3">
