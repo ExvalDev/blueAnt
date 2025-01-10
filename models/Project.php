@@ -12,6 +12,7 @@ class Project
     private Department $department;
     private Priority $priority;
     private ProjectType $type;
+    private array $customers;
 
     private $subjectMemo;
 
@@ -39,6 +40,7 @@ class Project
         Department $department,
         Priority $priority,
         ProjectType $type,
+
         string $subjectMemo = "",
         string $objectiveMemo = "",
         array $customers = [],
@@ -57,6 +59,7 @@ class Project
         $this->priority = $priority;
         $this->type = $type;
         $this->subjectMemo = $subjectMemo;
+        $this->customers = $customers;
         $this->objectiveMemo = $objectiveMemo;
         $this->customers = $customers;
         $this->customFields = $customFields;

@@ -217,6 +217,36 @@ main {
     text-overflow: ellipsis;
 }
 
+.milestone-container {
+    display: flex;
+    align-items: center; /* Zentriert alles vertikal */
+    justify-content: left; /* Zentriert alles horizontal */
+}
+
+.milestone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.diamond {
+    width: 40px;
+    height: 40px;
+    background-color: #e0e0e0;
+    transform: rotate(45deg);
+    margin-bottom: 10px;
+}
+
+.dashed-line {
+    border-top: 1px dashed #ccc;
+    width: 80px;
+    height: 0; 
+    margin: 0 10px;
+    position: relative; /* Ermöglicht die Verschiebung mit "top" */
+    top: -28px; /* Verschiebt die Linie nach oben, um mittig zu sein */
+}
+
 @media screen and (max-width: 768px) {
     main {
         width: 100%;

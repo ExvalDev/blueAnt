@@ -10,7 +10,9 @@ require 'services/DepartmentService.php';
 require 'services/PriorityService.php';
 require 'services/ProjectTypeService.php';
 require 'services/CustomFieldService.php';
+require 'services/CustomerService.php';
 require 'services/PlanningEntryService.php';
+
 
 
 class ProjectService //implements serviceInterface
@@ -22,6 +24,7 @@ class ProjectService //implements serviceInterface
     private $departmentService;
     private $priorityService;
     private $projectTypeService;
+    private $customerService;
     private $customFieldService;
 
     private $planningEntryService;
@@ -37,6 +40,7 @@ class ProjectService //implements serviceInterface
         $this->priorityService = new PriorityService();
         $this->projectTypeService = new ProjectTypeService();
         $this->customFieldService = new CustomFieldService();
+        $this->customerService = new CustomerService();
         $this->planningEntryService = new PlanningEntryService();
     }
 
@@ -60,6 +64,7 @@ class ProjectService //implements serviceInterface
                     $this->priorityService->findPriorityById($project['priorityId']),
                     $this->projectTypeService->findProjectTypeById($project['typeId']),
                     $project['subjectMemo'] ?? "",
+
                     $project['objectiveMemo'] ?? "",
                     $this->customerService->getCustomersFromProjectClients(projectClients: $project['clients']),
 
@@ -144,6 +149,7 @@ class ProjectService //implements serviceInterface
             $this->priorityService->getPriorityById($project['priorityId']),
             $this->projectTypeService->getProjectTypeById($project['typeId']),
             $project['subjectMemo'] ?? "",
+            $this->customerService->getCustomersFromProjectClients($project['clients']),
             $project['objectiveMemo'] ?? "",
             $this->customerService->getCustomersFromProjectClients($project['clients']),
             $this->customFieldService->getCustomFieldsOfProject($project['customFields']),
@@ -151,6 +157,11 @@ class ProjectService //implements serviceInterface
 
         );
     }
+
+    // Available Array Keys
+    // id,currencyId,departmentId,typeId,statusId,clients,priorityId,projectLeaderId,projectLeaderRoleId,name,number,costCentreNumber,
+    // isTemplate,isArchived,customFields,planningType,billingType,revenueEvaluation,start,end
+
 
     public function findProjectById($projectId): ?Project
     {
