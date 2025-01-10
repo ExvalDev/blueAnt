@@ -1,5 +1,8 @@
 <?php
 class PlanningEntry{
+
+
+
     private int $id;
     private string $description;
     private string $startDate;
@@ -58,4 +61,5 @@ class PlanningEntry{
         return strval($this->id) . ' | ' . $this->name;
     }
 }
+
 ?>

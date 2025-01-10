@@ -9,12 +9,13 @@ require 'services/RoleService.php';
 require 'services/DepartmentService.php';
 require 'services/PriorityService.php';
 require 'services/ProjectTypeService.php';
-require 'services/CustomerService.php';
 require 'services/CustomFieldService.php';
+require 'services/CustomerService.php';
 require 'services/PlanningEntryService.php';
 
 
-class ProjectService
+
+class ProjectService //implements serviceInterface
 {
     private $projectController;
     private $statusService;
@@ -31,7 +32,6 @@ class ProjectService
 
     public function __construct()
     {
-
         $this->projectController = new ProjectController();
         $this->statusService = new StatusService();
         $this->personService = new PersonService();
@@ -39,8 +39,8 @@ class ProjectService
         $this->departmentService = new DepartmentService();
         $this->priorityService = new PriorityService();
         $this->projectTypeService = new ProjectTypeService();
-        $this->customerService = new CustomerService();
         $this->customFieldService = new CustomFieldService();
+        $this->customerService = new CustomerService();
         $this->planningEntryService = new PlanningEntryService();
     }
 
@@ -49,6 +49,8 @@ class ProjectService
         if (self::$projects === null || $refresh) {
             self::$projects = [];
             $response = $this->projectController->getProjects();
+
+        
             foreach ($response as $project) {
                 self::$projects[$project['id']] = new Project(
                     $project['id'],
@@ -62,8 +64,10 @@ class ProjectService
                     $this->priorityService->findPriorityById($project['priorityId']),
                     $this->projectTypeService->findProjectTypeById($project['typeId']),
                     $project['subjectMemo'] ?? "",
+
                     $project['objectiveMemo'] ?? "",
                     $this->customerService->getCustomersFromProjectClients(projectClients: $project['clients']),
+
                 );
             }
         }
@@ -145,6 +149,7 @@ class ProjectService
             $this->priorityService->getPriorityById($project['priorityId']),
             $this->projectTypeService->getProjectTypeById($project['typeId']),
             $project['subjectMemo'] ?? "",
+            $this->customerService->getCustomersFromProjectClients($project['clients']),
             $project['objectiveMemo'] ?? "",
             $this->customerService->getCustomersFromProjectClients($project['clients']),
             $this->customFieldService->getCustomFieldsOfProject($project['customFields']),
@@ -152,6 +157,11 @@ class ProjectService
 
         );
     }
+
+    // Available Array Keys
+    // id,currencyId,departmentId,typeId,statusId,clients,priorityId,projectLeaderId,projectLeaderRoleId,name,number,costCentreNumber,
+    // isTemplate,isArchived,customFields,planningType,billingType,revenueEvaluation,start,end
+
 
     public function findProjectById($projectId): ?Project
     {

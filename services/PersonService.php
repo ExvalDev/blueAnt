@@ -3,7 +3,8 @@
 require 'models/Person.php';
 require 'controllers/PersonController.php';
 
-class PersonService
+
+class PersonService //implements serviceInterface
 {
     private $personController;
     private static $persons = null;

@@ -2,8 +2,10 @@
 
 require 'models/Status.php';
 require 'controllers/StatusController.php';
+require 'serviceInterface.php';
 
-class StatusService
+
+class StatusService implements serviceInterface
 {
     private $statusController;
     private static $activePhases = [2, 3];
@@ -15,7 +17,7 @@ class StatusService
         $this->statusController = new StatusController();
     }
 
-    public function getStatuses(): array
+    public function getData(): array
     {
         self::$statuses = [];
         $response = $this->statusController->getStatuses();
@@ -25,6 +27,12 @@ class StatusService
         return self::$statuses;
     }
 
+    public function getDataById( $id): Status
+    {
+        $status = $this->statusController->getStatusById($id);
+
+        return new Status($status['id'], $status['text'], $status['phase']);
+    }
     public function getStatusById(string $id): Status
     {
         $status = $this->statusController->getStatusById($id);
@@ -52,7 +60,7 @@ class StatusService
 
     public function findStatusById($statusId): Status
     {
-        $statuses = $this->getStatuses();
+        $statuses = $this->getData();
 
         if (isset($statuses[$statusId])) {
             return $statuses[$statusId];

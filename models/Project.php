@@ -13,10 +13,20 @@ class Project
     private Priority $priority;
     private ProjectType $type;
     private array $customers;
+
+    private $subjectMemo;
+
+    private $objectiveMemo;
+
+
+    private array $planningEntries;
+
+
     private array $customFields;
     private string $subjectMemo;
     private string $objectiveMemo;
     private array $planningEntries;
+
 
 
     public function __construct(
@@ -30,6 +40,7 @@ class Project
         Department $department,
         Priority $priority,
         ProjectType $type,
+
         string $subjectMemo = "",
         string $objectiveMemo = "",
         array $customers = [],
@@ -48,6 +59,7 @@ class Project
         $this->priority = $priority;
         $this->type = $type;
         $this->subjectMemo = $subjectMemo;
+        $this->customers = $customers;
         $this->objectiveMemo = $objectiveMemo;
         $this->customers = $customers;
         $this->customFields = $customFields;
@@ -167,15 +179,19 @@ class Project
         $this->customFields = $customFields;
         return $this;
     }
-    public function getSubjectMemo()
+
+    public function getSubjectmemo()
     {
         return $this->subjectMemo;
     }
-    public function setSubjectMemo($subjectMemo)
+
+    public function setSubjectmemo($subjectMemo)
     {
         $this->subjectMemo = $subjectMemo;
         return $this;
     }
+
+
     public function getObjectivememo()
     {
         return $this->objectiveMemo;
@@ -185,6 +201,7 @@ class Project
         $this->objectiveMemo = $objectiveMemo;
         return $this;
     }
+
     public function getPlanningEntries()
     {
         return $this->planningEntries;
