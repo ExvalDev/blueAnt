@@ -60,6 +60,7 @@ main {
     align-items: center;
     width: 80%;
     min-width: 70%;
+    
 }
 
 .error {
@@ -77,6 +78,7 @@ main {
     height: 90%;
     padding: 20px;
     width: 100%;
+    max-width: 1536px;
 }
 
 .content-index {
@@ -92,7 +94,7 @@ main {
     overflow-y: scroll;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 10px;
+    gap: 20px;
     padding-right: 15px;
 }
 
@@ -107,6 +109,13 @@ main {
 
 .card:hover {
     background: var(--card-background-hover);
+}
+
+.card:hover .subjectMemo{
+    white-space: unset;
+    overflow: unset;
+    text-overflow: unset;
+
 }
 
 .card .bi {

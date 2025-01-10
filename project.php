@@ -20,7 +20,6 @@ try {
 $phaseEnum = Phase::tryFrom($project->getStatus()->getPhase());
 $phaseColor = $phaseEnum->getColor();
 
-//$config = $this->config['apiEndpoints']['projects']
 ?>
 
 <main>
@@ -123,7 +122,7 @@ $phaseColor = $phaseEnum->getColor();
             <div class="custom-fields p-3 d-flex flex-column gap-3">
                 <h2>Ziel</h2>
                 <div class="d-flex flex-column gap-2">
-                    <?=$project->getObjectivememo();?>
+                    <?=strip_tags(string: $project->getObjectivememo());?>
                 </div>
             </div>
 
@@ -131,7 +130,7 @@ $phaseColor = $phaseEnum->getColor();
             <div class="custom-fields p-3 d-flex flex-column gap-3">
                 <h2>Gegenstand</h2>
                 <div class="d-flex flex-column gap-2">
-                    <?=$project->getSubjectmemo();?>
+                    <?=strip_tags($project->getSubjectmemo());?>
                 </div>
             </div>
 

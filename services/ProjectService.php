@@ -64,7 +64,6 @@ class ProjectService //implements serviceInterface
                     $this->priorityService->findPriorityById($project['priorityId']),
                     $this->projectTypeService->findProjectTypeById($project['typeId']),
                     $project['subjectMemo'] ?? "",
-
                     $project['objectiveMemo'] ?? "",
                     $this->customerService->getCustomersFromProjectClients(projectClients: $project['clients']),
 
@@ -76,7 +75,7 @@ class ProjectService //implements serviceInterface
 
     private function filterProjects(array $projects, array $filter): array
     {
-        return array_filter($projects, function ($project) use ($filter) {
+        $projects = array_filter($projects, function ($project) use ($filter) {
             foreach ($filter as $key => $filterValue) {
                 // Skip filter if value is null
                 if ($filterValue === null || $filterValue === [null]) {
@@ -110,6 +109,11 @@ class ProjectService //implements serviceInterface
             }
             return true; // Include the project if all filters match
         });
+
+        
+
+        return $projects;
+
     }
 
     public function getProjectsFiltered($selectedStatusId, $selectedDepartmentId, $selectedTypeId): array
