@@ -119,12 +119,19 @@ $phaseColor = $phaseEnum->getColor();
                     </div>
                 </div>
             </div>
+            <!-- Projekziel -->
+            <div class="custom-fields p-3 d-flex flex-column gap-3">
+                <h2>Ziel</h2>
+                <div class="d-flex flex-column gap-2">
+                    <?=$project->getObjectivememo();?>
+                </div>
+            </div>
 
             <!-- Projektgegenstand -->
             <div class="custom-fields p-3 d-flex flex-column gap-3">
                 <h2>Gegenstand</h2>
                 <div class="d-flex flex-column gap-2">
-                    Test
+                    <?=$project->getSubjectmemo();?>
                 </div>
             </div>
 
