@@ -1,6 +1,8 @@
 <?php 
 
 require 'controllers/PlanningEntryController.php';
+require 'models/PlanningEntry.php';
+
 
 
 class PlanningEntryService{

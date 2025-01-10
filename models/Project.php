@@ -23,9 +23,6 @@ class Project
 
 
     private array $customFields;
-    private string $subjectMemo;
-    private string $objectiveMemo;
-    private array $planningEntries;
 
 
 

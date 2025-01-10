@@ -149,7 +149,6 @@ class ProjectService //implements serviceInterface
             $this->priorityService->getPriorityById($project['priorityId']),
             $this->projectTypeService->getProjectTypeById($project['typeId']),
             $project['subjectMemo'] ?? "",
-            $this->customerService->getCustomersFromProjectClients($project['clients']),
             $project['objectiveMemo'] ?? "",
             $this->customerService->getCustomersFromProjectClients($project['clients']),
             $this->customFieldService->getCustomFieldsOfProject($project['customFields']),
