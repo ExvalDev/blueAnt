@@ -3,7 +3,8 @@
 require 'models/Role.php';
 require 'controllers/RoleController.php';
 
-class RoleService
+
+class RoleService //implements serviceInterface
 {
     private $roleController;
     private static $roles = null;

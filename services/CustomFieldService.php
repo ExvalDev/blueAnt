@@ -4,7 +4,7 @@ require 'models/CustomField.php';
 require 'models/CustomFieldOption.php';
 require 'controllers/CustomFieldController.php';
 
-class CustomFieldService
+class CustomFieldService //implements serviceInterface
 {
     private $customFieldController;
     private static $customFields = null;

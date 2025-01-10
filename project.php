@@ -9,7 +9,6 @@ require_once 'utilities/Phases.php';
 
 // Initialize services
 $projectService = new ProjectService();
-
 try {
     $projectId = intval(getQueryParam('projectId'));
     $project = $projectService->getProjectById($projectId);
@@ -20,6 +19,8 @@ try {
 
 $phaseEnum = Phase::tryFrom($project->getStatus()->getPhase());
 $phaseColor = $phaseEnum->getColor();
+
+$config = $this->config['apiEndpoints']['projects']
 ?>
 
 <main>

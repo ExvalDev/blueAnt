@@ -3,7 +3,8 @@
 require 'models/Priority.php';
 require 'controllers/PriorityController.php';
 
-class PriorityService
+
+class PriorityService // implements serviceInterface
 {
     private $priorityController;
     private static $priorities = null;
