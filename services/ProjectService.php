@@ -54,11 +54,8 @@ class ProjectService //implements serviceInterface
                     $this->departmentService->findDepartmentById($project['departmentId']),
                     $this->priorityService->findPriorityById($project['priorityId']),
                     $this->projectTypeService->findProjectTypeById($project['typeId']),
-                    $subjectMemo,
                     $project['subjectMemo'] ?? "",
-                    $this->customerService->getCustomersFromProjectClients($project['clients']),
-                    $project['subjectMemo'],
-                    $project['objectiveMemo']
+                    $project['objectiveMemo'] ?? ""
 
 
                 );
@@ -141,8 +138,8 @@ class ProjectService //implements serviceInterface
             $this->departmentService->getDepartmentById($project['departmentId']),
             $this->priorityService->getPriorityById($project['priorityId']),
             $this->projectTypeService->getProjectTypeById($project['typeId']),
-            $project['subjectMemo'],
-            $this->customerService->getCustomersFromProjectClients($project['clients']),
+            $project['subjectMemo'] ?? "",
+            $project['objectiveMemo'] ?? "",
             $this->customFieldService->getCustomFieldsOfProject($project['customFields']),
 
         );
