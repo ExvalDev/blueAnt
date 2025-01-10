@@ -25,6 +25,19 @@ class PlanningEntryService{
             self::$planningEntries = [];
             $responses = $this->planningEntriesController->getPlanningEntriesByCityId($id);
 
+            usort($responses, function ($a, $b) {
+                $dateA = new DateTime($a['end']);
+                $dateB = new DateTime($b['end']);
+                
+                if ($dateA < $dateB) {
+                    return -1; 
+                } elseif ($dateA > $dateB) {
+                    return 1; 
+                } else {
+                    return 0; 
+                }
+
+            });
             foreach ($responses as $response) {
                 self::$planningEntries[$response['id']] = new PlanningEntry(
                         $response['id'],
@@ -34,6 +47,8 @@ class PlanningEntryService{
                 );
             }
         }
+
         return self::$planningEntries;
     }
+
 }

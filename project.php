@@ -133,22 +133,20 @@ $phaseColor = $phaseEnum->getColor();
         <div class="custom-fields p-3 d-flex flex-column gap-3">
         <h2 class="mb-4">Meilensteine</h2>
         <div class="milestone-container">
+
+        <?php foreach($project->getPlanningEntries() as $planningEntry) {
+            
+            ?>
             <!-- Ein Meilenstein mit Linie -->
             <div class="dashed-line"></div>
             <div class="milestone">
                 <div class="diamond"></div>
-                <span class="text-muted">10.11.2019</span>
-                <strong>Freigabe</strong>
+                <span class="text-muted"><?=date('d.m.Y',strtotime($planningEntry->getEndDate()));?></span>
+                <strong><?=$planningEntry->getDescription();?></strong>
             </div>
-
-            <!-- Ein Meilenstein mit Linie -->
-            <div class="dashed-line"></div>
-            <div class="milestone">
-                <div class="diamond"></div>
-                <span class="text-muted">28.01.2020</span>
-                <strong>Endabnahme</strong>
-            </div>
-
+            <?php
+        }?>
+         
         </div>
         </div>
 
