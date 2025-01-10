@@ -4,6 +4,7 @@ return [
     'baseUrl' => 'https://dashboard-examples.blueant.cloud/rest',
     'bearerToken' => 'eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI3OTkzMjYyMjkiLCJpYXQiOjE3MzE1MDA5MzQsImlzcyI6IkJsdWUgQW50wqkiLCJleHAiOjE4ODkxODA5MzR9.ycX7nHJQH2nJSvURAmHOGebzElw9BzIgwyafRfDcJUY',   // Replace with your Bearer token
     'apiEndpoints' => [
+
         'projects' => '/v1/projects?includeMemoFields=true?includeMemoFields=true&includeClients=true&includeExternalSystemInformation=true&includeCustomFields=true',
         'project' => '/v1/projects/{id}?includeMemoFields=true&includeClients=true&includeExternalSystemInformation=true&includeCustomFields=true',
         'planningEntries' => "/v1/projects/{id}/planningentries",

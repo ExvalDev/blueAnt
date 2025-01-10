@@ -11,6 +11,9 @@ require 'services/PriorityService.php';
 require 'services/ProjectTypeService.php';
 require 'services/CustomFieldService.php';
 require 'services/CustomerService.php';
+require 'services/PlanningEntryService.php';
+
+
 
 class ProjectService //implements serviceInterface
 {
@@ -23,6 +26,8 @@ class ProjectService //implements serviceInterface
     private $projectTypeService;
     private $customerService;
     private $customFieldService;
+
+    private $planningEntryService;
     private static $projects = null;
 
     public function __construct()
@@ -36,6 +41,7 @@ class ProjectService //implements serviceInterface
         $this->projectTypeService = new ProjectTypeService();
         $this->customFieldService = new CustomFieldService();
         $this->customerService = new CustomerService();
+        $this->planningEntryService = new PlanningEntryService();
     }
 
     public function getProjects(bool $refresh = false): array
@@ -58,9 +64,9 @@ class ProjectService //implements serviceInterface
                     $this->priorityService->findPriorityById($project['priorityId']),
                     $this->projectTypeService->findProjectTypeById($project['typeId']),
                     $project['subjectMemo'] ?? "",
-                    $this->customerService->getCustomersFromProjectClients($project['clients']),
-                    $project['objectiveMemo'] ?? ""
 
+                    $project['objectiveMemo'] ?? "",
+                    $this->customerService->getCustomersFromProjectClients(projectClients: $project['clients']),
 
                 );
             }
@@ -145,7 +151,9 @@ class ProjectService //implements serviceInterface
             $project['subjectMemo'] ?? "",
             $this->customerService->getCustomersFromProjectClients($project['clients']),
             $project['objectiveMemo'] ?? "",
+            $this->customerService->getCustomersFromProjectClients($project['clients']),
             $this->customFieldService->getCustomFieldsOfProject($project['customFields']),
+            $this->planningEntryService->getPlanningEntriesByProjectId($project['id'])
 
         );
     }
