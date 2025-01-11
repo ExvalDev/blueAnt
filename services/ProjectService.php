@@ -66,6 +66,8 @@ class ProjectService //implements serviceInterface
                     $project['subjectMemo'] ?? "",
                     $project['objectiveMemo'] ?? "",
                     $this->customerService->getCustomersFromProjectClients(projectClients: $project['clients']),
+                    //$this->customFieldService->getCustomFieldsOfProject($project['customFields'] ?? []),
+
 
                 );
             }
@@ -155,7 +157,7 @@ class ProjectService //implements serviceInterface
             $project['subjectMemo'] ?? "",
             $project['objectiveMemo'] ?? "",
             $this->customerService->getCustomersFromProjectClients($project['clients']),
-            $this->customFieldService->getCustomFieldsOfProject($project['customFields']),
+            $this->customFieldService->getCustomFieldsOfProject($project['customFields'] ?? []),
             $this->planningEntryService->getPlanningEntriesByProjectId($project['id'])
 
         );

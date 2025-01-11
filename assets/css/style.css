@@ -78,7 +78,7 @@ main {
     height: 90%;
     padding: 20px;
     width: 100%;
-    max-width: 1536px;
+    max-width: 1700px;
 }
 
 .content-index {
@@ -95,7 +95,7 @@ main {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 20px;
-    padding-right: 15px;
+    padding: 4%;
 }
 
 .card,
@@ -103,13 +103,17 @@ main {
     background: var(--card-background);
     border-radius: 6px;
     border: none;
-    transition: background-color 0.3s ease, transform 0.2s ease;
     padding: 12px;
+    transition: transform 3s ease, box-shadow 0.3s ease; /* Übergang für Skalierung und Schatten */
+    position: relative;
+
 }
 
 .card:hover {
     background: var(--card-background-hover);
-   
+    scale: 1.2;
+    z-index: 10;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
 
 .card:hover .subjectMemoField{
