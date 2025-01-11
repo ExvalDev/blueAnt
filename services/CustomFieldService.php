@@ -55,20 +55,24 @@ class CustomFieldService //implements serviceInterface
                     throw new Exception("Customer data not found for key: " . $key);
                 }
 
-                switch ($customField->getType()) {
-                    case "ListBox":
-                        $options = $customField->getOptions();
-                        foreach ($options as $option) {
-                            if ($option->getKey() == $value) {
-                                $customField->setValue($option->getValue());
-                                $option->setIsSelected(true);
+                if($customField->getName() == "Strategiebeitrag" ||  $customField->getName() == "Score" ){
+                    switch ($customField->getType()) {
+                        case "ListBox":
+                            $options = $customField->getOptions();
+                            foreach ($options as $option) {
+                                if ($option->getKey() == $value) {
+                                    $customField->setValue($option->getValue());
+                                    $option->setIsSelected(true);
+                                }
                             }
-                        }
-                    default:
-                        $customField->setValue($value);
+                        default:
+                            $customField->setValue($value);
+                    }
+    
+                    $customFieldsOfProject[$customField->getId()] = $customField;
                 }
 
-                $customFieldsOfProject[$customField->getId()] = $customField;
+
             } catch (Exception $e) {
                 error_log($e->getMessage());
             }
