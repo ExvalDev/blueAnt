@@ -19,15 +19,10 @@ jobs:
               run: sudo apt-get install -y sshpass
 
             # Step 3: Transfer the blueAnt directory to the server via SCP
-            # Step 3: Transfer files in the blueAnt directory using SFTP
             - name: Transfer files to server
               env:
                   SFTP_HOST: ${{ secrets.SFTP_HOST }}
                   SFTP_USER: ${{ secrets.SFTP_USER }}
                   SFTP_PASS: ${{ secrets.SFTP_PASS }}
               run: |
-                  sshpass -p "$SFTP_PASS" sftp -o StrictHostKeyChecking=no $SFTP_USER@$SFTP_HOST << 'EOF'
-                  lcd ./blueAnt
-                  cd /blueAnt
-                  mput *
-                  EOF
+                  sshpass -p "$SFTP_PASS" scp -o StrictHostKeyChecking=no -r ./blueAnt $SFTP_USER@$SFTP_HOST:/blueAnt
