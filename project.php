@@ -6,6 +6,7 @@ require 'utilities/helpers.php';
 require_once 'components/backButton.php';
 require_once 'components/customField.php';
 require_once 'utilities/Phases.php';
+require_once 'utilities/Priorities.php';
 
 // Initialize services
 $projectService = new ProjectService();
@@ -19,6 +20,9 @@ try {
 
 $phaseEnum = Phase::tryFrom($project->getStatus()->getPhase());
 $phaseColor = $phaseEnum->getColor();
+
+$priorityEnum = Priorities::tryFrom($project->getPriority()->getId());
+$priorityColor = $priorityEnum->getColor();
 
 ?>
 
@@ -72,7 +76,7 @@ $phaseColor = $phaseEnum->getColor();
                     </div>
                     <div>
                         <h2>Priorität</h2>
-                        <span class='badge rounded-pill bg-secondary' data-bs-toggle='tooltip' data-bs-placement='top'
+                        <span class='badge rounded-pill' style='background-color: <?php echo $priorityColor; ?>;' data-bs-toggle='tooltip' data-bs-placement='top'
                               title='Priorität'><?php echo $project->getPriority()->getName(); ?></span>
                     </div>
 
@@ -143,7 +147,6 @@ $phaseColor = $phaseEnum->getColor();
         <?php foreach($project->getPlanningEntries() as $planningEntry) {
             
             ?>
-            <!-- Ein Meilenstein mit Linie -->
             <div class="dashed-line"></div>
             <div class="milestone">
                 <div class="diamond"></div>

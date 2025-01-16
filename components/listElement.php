@@ -35,7 +35,7 @@ function renderListElement(Project $project)
             </div>
             <div class='d-flex flex-row align-items-start gap-1'>
                 <span class='badge rounded-pill fw-bold badge-primary flex-shrink-0'>$projectId</span>
-                <span class='badge rounded-pill' style='background-color: $phaseColor;' data-bs-toggle='tooltip' data-bs-placement='top' title='Priorität'>$priority</span>
+                <span class='badge rounded-pill' style='background-color: $priorityColor;' data-bs-toggle='tooltip' data-bs-placement='top' title='Priorität'>$priority</span>
             </div>
         </div>
         <div class='d-flex flex-row justify-content-between'>

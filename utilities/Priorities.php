@@ -2,9 +2,9 @@
 
 enum Priorities: int
 {
-    case Priority1 = 4;
+    case Priority1 = 6;
     case Priority2 = 5;
-    case Priority3 = 6;
+    case Priority3 = 4;
 
 
     // Method to get the color for a phase
