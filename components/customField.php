@@ -101,3 +101,32 @@ function renderTrafficLightField(CustomField $customField): string
 
     return $html;
 }
+
+function renderTrafficLightsOnly(CustomField $customField): string
+{
+    $reversedFields = ['Sicherheits-Level'];
+    // Define traffic light colors based on position
+    $colorMap = ['#28A745', '#FFC107', '#ED1842', '#BD1234']; // Colors for the traffic light
+
+    $options = in_array($customField->getName(), $reversedFields) ? array_reverse($customField->getOptions()) : $customField->getOptions();
+
+    // Generate traffic light UI (without the label)
+    $html = "<div class='traffic-light-field d-flex align-items-center gap-2'>";
+
+    foreach ($options as $index => $option) {
+        $color = $colorMap[$index % count($colorMap)]; // Cycle through the colors
+        $isActive = ($option->getIsSelected()) ? 'active' : ''; // Mark the selected value
+
+        // Only display the value if it's the active option
+        $displayValue = ($isActive === 'active') ? htmlspecialchars($option->getValue()) : '';
+        $value = $option->getValue();
+        $html .= "<span class='badge-pill traffic-light {$isActive}' style='background-color: {$color};' data-bs-toggle='tooltip' data-bs-placement='top'
+                    title='{$value}'>
+                    {$displayValue}
+                  </span>";
+    }
+
+    $html .= "</div>";
+
+    return $html;
+}

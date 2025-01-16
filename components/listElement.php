@@ -1,6 +1,7 @@
 <?php
 require_once 'utilities/Phases.php';
 require_once 'utilities/Priorities.php';
+require_once 'components/customField.php';
 function renderListElement(Project $project)
 {
 
@@ -25,6 +26,14 @@ function renderListElement(Project $project)
     $score="";
     $classification="";
     $strategy="";
+    $minus="-";
+    $customFields = $project->getCustomFields();
+    foreach ($customFields as $key => $value) {
+        if (in_array($customFields[$key]->getName(),['Strategiebeitrag'])) {
+            $strategy = renderTrafficLightsOnly($customFields[$key]);
+        }
+    }
+
 
     return "
     <a class='card d-flex flex-column projectCard justify-content-between text-decoration-none' href='/project.php?projectId=$projectId'>
@@ -48,16 +57,12 @@ function renderListElement(Project $project)
                 <p>$classification</p>
             </div>
 
-              <div class='d-flex flex-column'>
-                <small class='text-muted'>Strategiebeitrag</small>
-                <p>$strategy</p>
-            </div>
-            
+            <div class='d-flex flex-column'>" . (!empty($strategy) ? "<small class='text-muted'>Strategiebeitrag</small><p>{$strategy}</p>" : "") . "</div>
+    
         </div>
         <div class='d-flex flex-row justify-content-between'>
             <p class='truncate subjectMemoField'>".strip_tags($subjectMemo)."</p>
-            <p>Score: $score</p>
-
+            <p>Score:&nbsp;".(strlen($score) > 0 ? $score : $minus)."</p>
         </div>
         <div class='d-flex align-items-center gap-3'>
             <span class='badge rounded-pill flex-shrink-0' style='background-color: $phaseColor;' data-bs-toggle='tooltip' data-bs-placement='top' title='Status - Phase $phase'>$status</span>

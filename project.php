@@ -168,7 +168,7 @@ $priorityColor = $priorityEnum->getColor();
                     } ?>
                 </div>
             </div>
-        </div>
+        </div>     
     </main>
 
 <?php include 'components/footer.php'; ?>
