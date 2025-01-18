@@ -93,7 +93,7 @@ main {
 .list {
     overflow-y: scroll;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     gap: 20px;
     padding: 4%;
 }
@@ -120,8 +120,19 @@ main {
     white-space: unset;
     overflow: unset;
     text-overflow: unset;
+    width: 70%
 
 
+}
+
+.subjectMemoField{
+    font-size: 14px;
+    padding-right: 30px;
+
+}
+
+.score{
+    width:25%;
 }
 
 .card .bi {
@@ -236,13 +247,14 @@ main {
     display: flex;
     align-items: center; /* Zentriert alles vertikal */
     justify-content: left; /* Zentriert alles horizontal */
+    overflow-x: scroll;
 }
 
 .milestone {
-    display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 0 10px;
+    margin: 20px 10px;
+    height: 150px;
 }
 
 .diamond {
@@ -261,6 +273,31 @@ main {
     position: relative; /* Ermöglicht die Verschiebung mit "top" */
     top: -28px; /* Verschiebt die Linie nach oben, um mittig zu sein */
 }
+
+/* Tooltip text verstecken */
+.tooltip-text {
+    visibility: hidden;
+    width: 120px;
+    background-color: whitesmoke;
+    color: black;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 65%;
+    margin-left: -60px; /* Verschiebung, um den Tooltip zu zentrieren */
+}
+.icon-wrapper{
+    line-height: 14px;
+    padding-left: 3px;
+}
+/* Wenn der Benutzer über das Icon fährt */
+.icon-wrapper:hover .tooltip-text {
+    visibility: visible;
+}
+
+
 
 @media screen and (max-width: 768px) {
     main {

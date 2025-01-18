@@ -32,6 +32,14 @@ function renderListElement(Project $project)
         if (in_array($customFields[$key]->getName(),['Strategiebeitrag'])) {
             $strategy = renderTrafficLightsOnly($customFields[$key]);
         }
+
+        if (in_array($customFields[$key]->getName(),['Score'])) {
+            $score = $customFields[$key]->getValue();
+        }
+
+        if (in_array($customFields[$key]->getName(),['Erläuterung Cluster'])) {
+            $classification = $customFields[$key]->getValue();
+        }
     }
 
 
@@ -52,17 +60,17 @@ function renderListElement(Project $project)
                 <small class='text-muted'>Projektleiter</small>
                 <p>$projectLeaderString</p>
             </div>
-           <div class='d-flex flex-column'>
-                <small class='text-muted'>Klassifikation</small>
-                <p>$classification</p>
-            </div>
+        <div class='d-flex flex-column'>
+            ".(!empty($classification) ? "<small style='background-color: #636363;' class='badge rounded-pill' data-bs-toggle='tooltip' data-bs-placement='top'
+                    title='{$classification}'>Klassifikation ?</small>" : "")."
+            
 
-            <div class='d-flex flex-column'>" . (!empty($strategy) ? "<small class='text-muted'>Strategiebeitrag</small><p>{$strategy}</p>" : "") . "</div>
-    
+            <div class='d-flex flex-column'>" . (!empty($strategy) ? "<small class='text-muted text-center'>Strategiebeitrag</small><p>{$strategy}</p>" : "") . "</div>
+        </div>
         </div>
         <div class='d-flex flex-row justify-content-between'>
             <p class='truncate subjectMemoField'>".strip_tags($subjectMemo)."</p>
-            <p>Score:&nbsp;".(strlen($score) > 0 ? $score : $minus)."</p>
+            <p class='score'>Score:&nbsp;".(strlen($score) > 0 ? $score : $minus)."</p>
         </div>
         <div class='d-flex align-items-center gap-3'>
             <span class='badge rounded-pill flex-shrink-0' style='background-color: $phaseColor;' data-bs-toggle='tooltip' data-bs-placement='top' title='Status - Phase $phase'>$status</span>

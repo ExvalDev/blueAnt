@@ -55,7 +55,7 @@ class CustomFieldService //implements serviceInterface
                     throw new Exception("Customer data not found for key: " . $key);
                 }
 
-                if($customField->getName() == "Strategiebeitrag" ||  $customField->getName() == "Score" ){
+                if($customField->getName() == "Strategiebeitrag" ||  $customField->getName() == "Score" || $customField->getName() == "Erläuterung Cluster" ){
                     switch ($customField->getType()) {
                         case "ListBox":
                             $options = $customField->getOptions();
