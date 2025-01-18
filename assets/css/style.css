@@ -307,4 +307,29 @@ main {
     .grid {
         grid-template-columns: 1fr; /* 1 column on extra small screens */
     }
+
+    .list {
+        overflow-y: scroll;
+        overflow-x: clip;
+
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 10px;
+    }
+
+    .topbar{
+
+        flex-wrap: wrap;
+    }
+
+    .filterMobile{
+
+        flex-wrap: wrap;
+    }
+
+    .filterMobileContainer{
+
+        width: 300px;
+        margin: auto;
+    }
 }

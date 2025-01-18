@@ -67,10 +67,10 @@ try {
                     <h1>Projektübersicht</h1>
                     <h1>(<?= count($projects) ?>)</h1>
                 </div>
-                <div class="d-flex gap-2 align-items-center jusifiy-content-end">
+                <div class="d-flex gap-2 align-items-center jusifiy-content-end filterMobileContainer">
                     <form method="GET" action="" class="d-flex align-items-center jusifiy-content-end">
-                        <div class="row d-flex justify-content-end">
-                            <div class="col-4">
+                        <div class="row d-flex justify-content-end filterMobile">
+                            <div class="col-12 col-sm-4 ">
                                 <select class="form-select" name="status" aria-label="Filter Status"
                                     onchange="this.form.submit()">
                                     <option value="" <?= empty($_GET['status']) ? 'selected' : '' ?>>Status</option>
@@ -82,7 +82,7 @@ try {
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-3"><select class="form-select" name="department" aria-label="filter Department"
+                            <div class="col-12 col-sm-3 "><select class="form-select" name="department" aria-label="filter Department"
                                     onchange="this.form.submit()">
                                     <option value="" <?= empty($_GET['department']) ? 'selected' : '' ?>>Abteilung</option>
                                     <?php
@@ -93,7 +93,7 @@ try {
                                     ?>
                                 </select>
                             </div>
-                            <div class="col-3">
+                            <div class="col-12 col-sm-3">
                                 <select class="form-select" name="type" aria-label="filter Type"
                                     onchange="this.form.submit()">
                                     <option value="" <?= empty($_GET['type']) ? 'selected' : '' ?>>Type</option>
