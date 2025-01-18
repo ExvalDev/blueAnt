@@ -62,7 +62,7 @@ function renderListElement(Project $project)
             </div>
         <div class='d-flex flex-column'>
             ".(!empty($classification) ? "<small style='background-color: #636363;' class='badge rounded-pill' data-bs-toggle='tooltip' data-bs-placement='top'
-                    title='{$classification}'>Klassifikation ?</small>" : "")."
+                    title='{$classification}'>Erläuterung Cluster ?</small>" : "")."
             
 
             <div class='d-flex flex-column'>" . (!empty($strategy) ? "<small class='text-muted text-center'>Strategiebeitrag</small><p>{$strategy}</p>" : "") . "</div>
