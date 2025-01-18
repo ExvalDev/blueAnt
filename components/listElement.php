@@ -23,25 +23,24 @@ function renderListElement(Project $project)
     $projectLeader = $project->getProjectLeader();
     $projectLeaderString = $projectLeader->getFirstname() . " " . $projectLeader->getLastname();
     $subjectMemo = $project->getSubjectmemo();
-    $score="";
-    $classification="";
-    $strategy="";
-    $minus="-";
-    $customFields = $project->getCustomFields();
-    foreach ($customFields as $key => $value) {
-        if (in_array($customFields[$key]->getName(),['Strategiebeitrag'])) {
-            $strategy = renderTrafficLightsOnly($customFields[$key]);
-        }
 
-        if (in_array($customFields[$key]->getName(),['Score'])) {
-            $score = $customFields[$key]->getValue();
-        }
+    $score = "-";
+    $classification = "";
+    $strategy = "";
 
-        if (in_array($customFields[$key]->getName(),['Erläuterung Cluster'])) {
-            $classification = $customFields[$key]->getValue();
+    foreach ($project->getCustomFields() as $customField) {
+        switch ($customField->getName()) {
+            case 'Strategiebeitrag':
+                $strategy = renderTrafficLightsOnly($customField);
+                break;
+            case 'Score':
+                $score = $customField->getValue();
+                break;
+            case 'Erläuterung Cluster':
+                $classification = $customField->getValue();
+                break;
         }
     }
-
 
     return "
     <a class='card d-flex flex-column projectCard justify-content-between text-decoration-none' href='/project.php?projectId=$projectId'>
@@ -60,19 +59,21 @@ function renderListElement(Project $project)
                 <small class='text-muted'>Projektleiter</small>
                 <p>$projectLeaderString</p>
             </div>
-        <div class='d-flex flex-column'>
-            ".(!empty($classification) ? "<small style='background-color: #636363;' class='badge rounded-pill' data-bs-toggle='tooltip' data-bs-placement='top'
-                    title='{$classification}'>Erläuterung Cluster ?</small>" : "")."
-            
-
-            <div class='d-flex flex-column'>" . (!empty($strategy) ? "<small class='text-muted text-center'>Strategiebeitrag</small><p>{$strategy}</p>" : "") . "</div>
-        </div>
+            <div class='d-flex flex-row align-items-start gap-3'>
+                " . (!empty($classification) ? "<small style='background-color: #636363;' class='badge rounded-pill' data-bs-toggle='tooltip' data-bs-placement='top' title='{$classification}'>Erläuterung Cluster</small>" : "") . "
+                <div class='d-flex flex-column gap-1'>
+                    " . (!empty($strategy) ? "<small class='text-muted text-center'>Strategiebeitrag</small><p>{$strategy}</p>" : "") . "
+                </div>
+                <div class='d-flex flex-column gap-1'>
+                    <small class='text-muted score'>Score</small>
+                    <p>$score</p>
+                </div>
+            </div>
         </div>
         <div class='d-flex flex-row justify-content-between'>
-            <p class='truncate subjectMemoField'>".strip_tags($subjectMemo)."</p>
-            <p class='score'>Score:&nbsp;".(strlen($score) > 0 ? $score : $minus)."</p>
+            <p class='truncate subjectMemoField'>" . strip_tags($subjectMemo) . "</p>
         </div>
-        <div class='d-flex align-items-center gap-3'>
+        <div class='d-flex align-items-center justify-content-between'>
             <span class='badge rounded-pill flex-shrink-0' style='background-color: $phaseColor;' data-bs-toggle='tooltip' data-bs-placement='top' title='Status - Phase $phase'>$status</span>
             <i class='bi bi-arrow-down-right-square fs-5 icon'></i>
         </div>
