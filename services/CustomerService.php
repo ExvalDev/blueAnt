@@ -1,4 +1,7 @@
 <?php
+/**
+ * Service class to handle Customer actions
+ */
 
 require 'models/Customer.php';
 require 'controllers/CustomerController.php';

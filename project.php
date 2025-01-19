@@ -1,4 +1,7 @@
 <?php
+/**
+ * Shows the detail Page of a Project
+ */
 include 'components/header.php';
 require 'components/error.php';
 require 'services/ProjectService.php';
@@ -25,6 +28,7 @@ $priorityEnum = Priorities::tryFrom($project->getPriority()->getId());
 $priorityColor = $priorityEnum->getColor();
 
 ?>
+
 
 <main>
         <div class="content-project">

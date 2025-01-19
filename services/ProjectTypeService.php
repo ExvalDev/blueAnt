@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Service class to handle ProjectType actions
+ */
 require 'models/ProjectType.php';
 require 'controllers/ProjectTypeController.php';
 

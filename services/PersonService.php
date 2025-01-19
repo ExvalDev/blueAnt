@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Service class to handle Person actions
+ */
 require 'models/Person.php';
 require 'controllers/PersonController.php';
 

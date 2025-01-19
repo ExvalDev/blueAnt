@@ -1,10 +1,14 @@
 <?php
 
+/**
+ * Service class to handle CustomField actions
+ */
+
 require 'models/CustomField.php';
 require 'models/CustomFieldOption.php';
 require 'controllers/CustomFieldController.php';
 
-class CustomFieldService //implements serviceInterface
+class CustomFieldService 
 {
     private $customFieldController;
     private static $customFields = null;

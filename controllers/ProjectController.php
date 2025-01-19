@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Controller to handle API Requests for Project
+ */
+
 require_once 'RequestController.php';
 
 class ProjectController

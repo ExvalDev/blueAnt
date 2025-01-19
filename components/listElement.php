@@ -1,7 +1,14 @@
 <?php
+
 require_once 'utilities/Phases.php';
 require_once 'utilities/Priorities.php';
 require_once 'components/customField.php';
+
+/**
+ * Render one Project card in overview
+ * @param Project $project
+ * @return string
+ */
 function renderListElement(Project $project)
 {
 

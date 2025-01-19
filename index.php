@@ -1,4 +1,7 @@
 <?php
+/**
+ * Shows the overview page with multiple Projects
+ */
 try {
     include 'components/header.php';
     include 'components/list.php';

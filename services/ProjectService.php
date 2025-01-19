@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Service class to handle Project actions
+ */
+
 require 'models/Project.php';
 require 'controllers/ProjectController.php';
 
@@ -44,6 +48,11 @@ class ProjectService //implements serviceInterface
         $this->planningEntryService = new PlanningEntryService();
     }
 
+    /**
+     * Get all Projects for Overviewpage
+     * @param bool $refresh
+     * @return array
+     */
     public function getProjects(bool $refresh = false): array
     {
         if (self::$projects === null || $refresh) {
@@ -75,6 +84,12 @@ class ProjectService //implements serviceInterface
         return self::$projects;
     }
 
+    /**
+     * Filter Projects after using Frontendfilter
+     * @param array $projects
+     * @param array $filter
+     * @return array
+     */
     private function filterProjects(array $projects, array $filter): array
     {
         $projects = array_filter($projects, function ($project) use ($filter) {

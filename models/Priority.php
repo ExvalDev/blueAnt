@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Model for Priority
+ */
 class Priority
 {
     private int $id;

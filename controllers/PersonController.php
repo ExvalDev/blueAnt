@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Controller to handle API Requests for Person
+ */
 require_once 'RequestController.php';
 
 class PersonController

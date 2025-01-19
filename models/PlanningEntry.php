@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * Model for PlanningEntry
+ */
 class PlanningEntry{
 
 

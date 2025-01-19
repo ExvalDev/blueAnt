@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Model for Department
+ */
 class Department
 {
     private int $id;

@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Controller to handle API Requests for Department
+ */
+
 require_once 'RequestController.php';
 
 class DepartmentController

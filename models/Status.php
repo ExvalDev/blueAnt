@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Model for Status
+ */
 class Status
 {
     private int $id;

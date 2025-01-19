@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Controller to handle API Requests for CustomFieldController
+ */
 require_once 'RequestController.php';
 
 class CustomFieldController

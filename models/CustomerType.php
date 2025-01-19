@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Model for CustomerType
+ */
+
 class CustomerType
 {
     private int $id;

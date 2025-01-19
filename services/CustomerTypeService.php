@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Service class to handle CustomType actions
+ */
+
 require 'models/CustomerType.php';
 require 'controllers/CustomerTypeController.php';
 

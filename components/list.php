@@ -1,5 +1,9 @@
 <?php
-
+/**
+ * Render all projects in overview
+ * @param mixed $projects
+ * @return string
+ */
 function renderList($projects)
 {
     $html = "<div class='list'>";

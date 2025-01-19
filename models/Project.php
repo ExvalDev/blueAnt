@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Model for Project
+ */
 class Project
 {
     private int $id;

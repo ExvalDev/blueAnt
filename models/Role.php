@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Model for Role
+ */
 class Role
 {
     private int $id;

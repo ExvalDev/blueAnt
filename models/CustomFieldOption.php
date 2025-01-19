@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Model for CustomFieldOption
+ */
+
 class CustomFieldOption
 {
     private string $key;

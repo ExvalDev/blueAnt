@@ -1,5 +1,7 @@
 <?php 
-
+/**
+ * Service class to handle Planninentry actions
+ */
 require 'controllers/PlanningEntryController.php';
 require 'models/PlanningEntry.php';
 

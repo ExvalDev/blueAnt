@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Controller to handle API Requests for PlanningEntry
+ */
+
 require_once 'RequestController.php';
 
 class PlanningEntryController

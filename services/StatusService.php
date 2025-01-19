@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Service class to handle Status actions
+ */
 require 'models/Status.php';
 require 'controllers/StatusController.php';
 require 'serviceInterface.php';

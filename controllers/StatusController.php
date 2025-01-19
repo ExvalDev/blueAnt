@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Controller to handle API Requests for Status
+ */
 require_once 'RequestController.php';
 
 class StatusController

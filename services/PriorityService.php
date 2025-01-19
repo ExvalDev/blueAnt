@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Service class to handle Priority actions
+ */
 require 'models/Priority.php';
 require 'controllers/PriorityController.php';
 

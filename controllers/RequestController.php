@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Generic Controller to make a request to the api
+ */
 class RequestController
 {
     private $baseUrl;

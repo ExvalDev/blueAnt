@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Model for ProjectType
+ */
 class ProjectType
 {
     private int $id;

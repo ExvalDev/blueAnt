@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Service class to handle Role actions
+ */
+
+
 require 'models/Role.php';
 require 'controllers/RoleController.php';
 

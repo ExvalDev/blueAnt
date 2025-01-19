@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Model for CustomField
+ */
 class CustomField
 {
     private int $id;

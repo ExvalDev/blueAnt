@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Service class to handle Department actions
+ */
+
 require 'models/Department.php';
 require 'controllers/DepartmentController.php';
 
