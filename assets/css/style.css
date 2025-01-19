@@ -58,9 +58,8 @@ main {
     height: 90%;
     justify-content: center;
     align-items: center;
-    width: 80%;
+    width: 100%;
     min-width: 70%;
-    
 }
 
 .error {
@@ -73,6 +72,7 @@ main {
 .content-index,
 .content-project {
     display: flex;
+    align-items: center;
     flex-direction: column;
     gap: 10px;
     height: 90%;
@@ -86,8 +86,7 @@ main {
 }
 
 .topbar {
-    width: 100%;
-    padding-right: 15px;
+    width: 80%;
 }
 
 .list {
@@ -95,7 +94,8 @@ main {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
     gap: 20px;
-    padding: 4%;
+    padding: 0 10% 0 10%;
+    width: 100%;
 }
 
 .card,
@@ -106,7 +106,6 @@ main {
     padding: 12px;
     transition: transform 3s ease, box-shadow 0.3s ease; /* Übergang für Skalierung und Schatten */
     position: relative;
-
 }
 
 .card:hover {
@@ -116,24 +115,17 @@ main {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
 
-.card:hover .subjectMemoField{
+.card:hover .subjectMemoField {
     white-space: unset;
     overflow: unset;
     text-overflow: unset;
-    width: 70%
-
-
+    width: 70%;
 }
 
-.subjectMemoField{
+.subjectMemoField {
     font-size: 14px;
     padding-right: 30px;
     width: 70%;
-
-}
-
-.score{
-    width:25%;
 }
 
 .card .bi {
@@ -175,13 +167,14 @@ main {
 .details-header {
     background: var(--card-background);
     border-radius: 6px;
-    width: 100%;
+    width: 80%;
 }
 
 .grid {
     display: grid;
     grid-template-columns: 1fr 1fr 2fr;
     gap: 10px;
+    width: 80%;
 }
 
 .tile {
@@ -197,7 +190,7 @@ main {
 .custom-fields {
     background: var(--card-background);
     border-radius: 6px;
-    width: 100%;
+    width: 80%;
 }
 
 .form-label {
@@ -246,33 +239,37 @@ main {
 
 .milestone-container {
     display: flex;
-    align-items: center; /* Zentriert alles vertikal */
-    justify-content: left; /* Zentriert alles horizontal */
-    overflow-x: scroll;
+    align-items: center; /* Centers items vertically */
+    justify-content: space-between; /* Distributes items evenly */
+    overflow-x: auto; /* Allows scrolling if content overflows horizontally */
+    padding: 20px 0; /* Adds vertical padding */
 }
 
 .milestone {
-    flex-direction: column;
-    align-items: center;
-    margin: 20px 10px;
-    height: 150px;
+    display: flex;
+    flex-direction: column; /* Stacks diamond and text vertically */
+    align-items: center; /* Centers content horizontally */
+    text-align: center; /* Centers text below diamond */
+    height: 150px; /* Ensures consistent height for all milestones */
+    width: 100px; /* Optional: Adjust width for consistent layout */
+    flex-shrink: 0; /* Prevents shrinking */
 }
 
 .diamond {
     width: 40px;
     height: 40px;
     background-color: #e0e0e0;
-    transform: rotate(45deg);
-    margin-bottom: 10px;
+    transform: rotate(45deg); /* Creates diamond shape */
+    margin-bottom: 10px; /* Adds space below the diamond */
 }
 
 .dashed-line {
     border-top: 1px dashed #ccc;
     width: 80px;
-    height: 0; 
-    margin: 0 10px;
-    position: relative; /* Ermöglicht die Verschiebung mit "top" */
-    top: -28px; /* Verschiebt die Linie nach oben, um mittig zu sein */
+    height: 0;
+    flex-shrink: 0; /* Prevents shrinking of the dashed line */
+    position: relative;
+    top: -55px; /* Aligns dashed line with the center of the diamonds */
 }
 
 /* Tooltip text verstecken */
@@ -289,7 +286,7 @@ main {
     bottom: 65%;
     margin-left: -60px; /* Verschiebung, um den Tooltip zu zentrieren */
 }
-.icon-wrapper{
+.icon-wrapper {
     line-height: 14px;
     padding-left: 3px;
 }
@@ -297,8 +294,6 @@ main {
 .icon-wrapper:hover .tooltip-text {
     visibility: visible;
 }
-
-
 
 @media screen and (max-width: 768px) {
     main {
@@ -318,18 +313,15 @@ main {
         gap: 10px;
     }
 
-    .topbar{
-
+    .topbar {
         flex-wrap: wrap;
     }
 
-    .filterMobile{
-
+    .filterMobile {
         flex-wrap: wrap;
     }
 
-    .filterMobileContainer{
-
+    .filterMobileContainer {
         width: 300px;
         margin: auto;
     }
