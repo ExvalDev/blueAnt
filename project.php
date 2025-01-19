@@ -125,44 +125,75 @@ $priorityColor = $priorityEnum->getColor();
         <div class="custom-fields p-3 d-flex flex-column gap-3">
             <h2>Ziel</h2>
             <div class="d-flex flex-column gap-2">
-                <?= strip_tags(string: $project->getObjectivememo()); ?>
+            <?php 
+    // Überprüfen, ob das Objectivememo leer ist
+    if (empty($project->getObjectivememo())) {
+        // Wenn das Objectivememo leer ist, zeige "-"
+        echo "<div>-</div>";
+    } else {
+        // Andernfalls, den Inhalt des Objectivememo anzeigen
+        echo strip_tags($project->getObjectivememo());
+    }
+    ?>
             </div>
         </div>
 
         <!-- Projektgegenstand -->
         <div class="custom-fields p-3 d-flex flex-column gap-3">
             <h2>Gegenstand</h2>
-            <div class="d-flex flex-column gap-2">
-                <?= strip_tags($project->getSubjectmemo()); ?>
-            </div>
+            <?php 
+    // Überprüfen, ob das Subjectmemo leer ist
+    if (empty($project->getSubjectmemo())) {
+        // Wenn das Subjectmemo leer ist, zeige "-"
+        echo "<div>-</div>";
+    } else {
+        // Andernfalls, den Inhalt des Subjectmemo anzeigen
+        echo strip_tags($project->getSubjectmemo());
+    }
+    ?>
         </div>
 
 
         <!--Meilensteine-->
         <div class="custom-fields p-3 d-flex flex-column gap-3">
-            <h2 class="mb-4">Meilensteine</h2>
-            <div class="milestone-container">
-                <?php
-                $planningEntries = $project->getPlanningEntries();
-                $totalEntries = count($planningEntries);
-                foreach ($planningEntries as $index => $planningEntry) { ?>
+    <h2 class="mb-4">Meilensteine</h2>
+    <div class="milestone-container">
+        <?php
+        $planningEntries = $project->getPlanningEntries();
+        $totalEntries = count($planningEntries);
+        if ($totalEntries === 0) {
+            echo "<div>-</div>";
+        } else {
+            foreach ($planningEntries as $index => $planningEntry) { ?>
                 <div class="milestone">
                     <div class="diamond"></div>
                     <span class="text-muted"><?= date('d.m.Y', strtotime($planningEntry->getEndDate())); ?></span>
                     <strong><?= $planningEntry->getDescription(); ?></strong>
                 </div>
                 <div class="dashed-line"></div>
-                <?php } ?>
-            </div>
-        </div>
+            <?php }
+        }
+        ?>
+    </div>
+</div>
+
 
 
         <div class="custom-fields p-3 d-flex flex-column gap-3">
             <h2>Benutzerdefinierte Felder</h2>
             <div class="d-flex flex-column gap-2">
-                <?php foreach ($project->getCustomFields() as $customField) {
-                    echo renderCustomField($customField);
-                } ?>
+            <?php 
+    // Überprüfen, ob benutzerdefinierte Felder vorhanden sind
+    if (empty($project->getCustomFields())) {
+        // Wenn keine benutzerdefinierten Felder vorhanden sind, zeige "-"
+        echo "<div>-</div>";
+    } else {
+        // Wenn benutzerdefinierte Felder vorhanden sind, rendere sie
+        foreach ($project->getCustomFields() as $customField) {
+            echo renderCustomField($customField);
+        }
+    }
+    ?>
             </div>
         </div>
     </div>
