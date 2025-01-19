@@ -126,7 +126,7 @@ $priorityColor = $priorityEnum->getColor();
             <div class="custom-fields p-3 d-flex flex-column gap-3">
                 <h2>Ziel</h2>
                 <div class="d-flex flex-column gap-2">
-                    <?=strip_tags(string: $project->getObjectivememo());?>
+                    <?= !empty(strip_tags($project->getObjectivememo())) ? strip_tags($project->getObjectivememo()) : '-'; ?>
                 </div>
             </div>
 
@@ -134,39 +134,44 @@ $priorityColor = $priorityEnum->getColor();
             <div class="custom-fields p-3 d-flex flex-column gap-3">
                 <h2>Gegenstand</h2>
                 <div class="d-flex flex-column gap-2">
-                    <?=strip_tags($project->getSubjectmemo());?>
+                    <?= !empty(strip_tags($project->getSubjectmemo())) ? strip_tags($project->getSubjectmemo()) : '-'; ?>
                 </div>
             </div>
 
         
-        <!--Meilensteine-->
-        <div class="custom-fields p-3 d-flex flex-column gap-3">
-        <h2 class="mb-4">Meilensteine</h2>
-        <div class="milestone-container">
-
-        <?php foreach($project->getPlanningEntries() as $planningEntry) {
+        <!-- Meilensteine -->
+<div class="custom-fields p-3 d-flex flex-column gap-3">
+    <h2 class="mb-4">Meilensteine</h2>
+    <div class="milestone-container">
+        <?php if (empty($project->getPlanningEntries())): ?>
+            <div>-</div>
+        <?php else: ?>
+            <?php foreach($project->getPlanningEntries() as $planningEntry) {
             
             ?>
             <div class="dashed-line"></div>
             <div class="milestone">
                 <div class="diamond"></div>
                 <span class="text-muted"><?=date('d.m.Y',strtotime($planningEntry->getEndDate()));?></span>
-                <strong><?=$planningEntry->getDescription();?></strong>
+                <strong class="single-line"><?=$planningEntry->getDescription();?></strong>
             </div>
             <?php
         }?>
-         
-        </div>
-        </div>
+        <?php endif; ?>
+    </div>
+</div>
+
 
 
             <div class="custom-fields p-3 d-flex flex-column gap-3">
-                <h2>Benutzerdefinierte Felder</h2>
-                <div class="d-flex flex-column gap-2">
-                    <?php foreach ($project->getCustomFields() as $customField) {
-                        echo renderCustomField($customField);
-                    } ?>
-                </div>
+            <h2>Benutzerdefinierte Felder</h2>
+            <?php if (empty($project->getCustomFields())): ?>
+            <div>-</div>
+            <?php else: ?>
+                <?php foreach ($project->getCustomFields() as $customField): ?>
+                    <?= renderCustomField($customField); ?>
+                <?php endforeach; ?>
+            <?php endif; ?>
             </div>
         </div>     
     </main>

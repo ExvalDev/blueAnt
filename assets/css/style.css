@@ -254,7 +254,10 @@ main {
 .milestone {
     flex-direction: column;
     align-items: center;
-    margin: 20px 10px;
+    display: flex;
+    margin: 10px 10px;
+    width: 100px;
+    position: relative;
     height: 150px;
 }
 
@@ -270,9 +273,33 @@ main {
     border-top: 1px dashed #ccc;
     width: 80px;
     height: 0; 
-    margin: 0 10px;
+    margin: 0 1px;
     position: relative; /* Ermöglicht die Verschiebung mit "top" */
-    top: -28px; /* Verschiebt die Linie nach oben, um mittig zu sein */
+    top: -56px; /* Verschiebt die Linie nach oben, um mittig zu sein */
+    flex-shrink: 0; /* Verhindert, dass sie schrumpft */
+}
+
+.single-line {
+    white-space: nowrap;       /* Verhindert Umbrüche innerhalb des Textes */
+    overflow: hidden;          /* Blendet überflüssigen Text aus */
+    text-overflow: ellipsis;   /* Fügt "..." hinzu, wenn der Text zu lang ist */
+    display: block;            /* Stellt sicher, dass der Textblock korrekt behandelt wird */
+    width: 100%;               /* Optional: sorgt dafür, dass der Textblock die ganze Breite einnimmt */
+}
+
+/* Hover-Effekt für den gesamten Meilenstein */
+.milestone:hover .single-line {
+    overflow: visible;           /* Ermöglicht den sichtbaren Überlauf */
+    white-space: normal;         /* Erlaubt Zeilenumbrüche im Text */
+    text-overflow: unset;        /* Entfernt das Ellipsis */
+    padding: 5px;                /* Optional: fügt etwas Abstand hinzu */
+    border-radius: 5px;          /* Optional: Abrundung des Hintergrunds */
+    height: auto;                /* Macht die Höhe des Textblocks automatisch */
+    max-height: none;            /* Entfernt eine maximale Höhe, falls vorhanden */
+    line-height: 1.5;            /* Optional: sorgt für besseren Zeilenabstand */
+    transition: all 0.3s ease;   /* Sorgt für eine weiche Übergangsanimation */
+    width: 120%;                 /* Sorgt dafür, dass der Textblock die volle Breite des Containers einnimmt */
+    box-sizing: border-box;      /* Verhindert, dass Padding die Breite überschreitet */
 }
 
 /* Tooltip text verstecken */
