@@ -5,9 +5,13 @@
 class Project
 {
     private int $id;
+
+    private string $projectNumber;
+
     private string $name;
     private string $startDate;
     private string $endDate;
+
     private Status $status;
     private Person|null $projectLeader;
     private Role $projectLeaderRole;
@@ -30,6 +34,7 @@ class Project
 
     public function __construct(
         int $id,
+        string $projectNumber,
         string $name,
         string $startDate,
         string $endDate,
@@ -48,6 +53,7 @@ class Project
 
     ) {
         $this->id = $id;
+        $this->projectNumber = $projectNumber;
         $this->name = $name;
         $this->startDate = $startDate;
         $this->endDate = $endDate;
@@ -73,6 +79,18 @@ class Project
     public function setId($id)
     {
         $this->id = $id;
+        return $this;
+    }
+
+
+    public function getProjectNumber()
+    {
+        return $this->projectNumber;
+    }
+
+    public function setProjectNumber($projectNumber)
+    {
+        $this->projectNumber = $projectNumber;
         return $this;
     }
 

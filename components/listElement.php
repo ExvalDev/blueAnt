@@ -31,6 +31,7 @@ function renderListElement(Project $project)
     $projectLeaderString = $projectLeader->getFirstname() . " " . $projectLeader->getLastname();
     $subjectMemo = $project->getSubjectmemo();
 
+    $projectNumber = $project->getProjectNumber();
     $score = "-";
     $classification = "";
     $strategy = "";
@@ -38,7 +39,8 @@ function renderListElement(Project $project)
     foreach ($project->getCustomFields() as $customField) {
         switch ($customField->getName()) {
             case 'Strategiebeitrag':
-                $strategy = renderTrafficLightsOnly($customField);
+                #$strategy = renderTrafficLightsOnly($customField);
+                $strategy = getListboxValue($customField);
                 break;
             case 'Score':
                 $score = $customField->getValue();
@@ -57,7 +59,7 @@ function renderListElement(Project $project)
                 <small class='text-muted'>$startDate - $endDate</small>
             </div>
             <div class='d-flex flex-row align-items-start gap-1'>
-                <span class='badge rounded-pill fw-bold badge-primary flex-shrink-0'>$projectId</span>
+                <span class='badge rounded-pill fw-bold badge-primary flex-shrink-0'>$projectNumber</span>
                 <span class='badge rounded-pill' style='background-color: $priorityColor;' data-bs-toggle='tooltip' data-bs-placement='top' title='Priorität'>$priority</span>
             </div>
         </div>

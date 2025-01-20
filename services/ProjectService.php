@@ -63,6 +63,7 @@ class ProjectService //implements serviceInterface
             foreach ($response as $project) {
                 self::$projects[$project['id']] = new Project(
                     $project['id'],
+                    $project['number'],
                     $project['name'],
                     $project['start'],
                     $project['end'],
@@ -160,6 +161,7 @@ class ProjectService //implements serviceInterface
 
         return new Project(
             $project['id'],
+            $project['number'],
             $project['name'],
             $project['start'],
             $project['end'],

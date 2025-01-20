@@ -102,6 +102,21 @@ function renderTrafficLightField(CustomField $customField): string
     return $html;
 }
 
+function getListboxValue(CustomField $customField){
+
+    $options = $customField->getOptions();
+
+
+    foreach ($options as $index => $option) {
+        if($option->getIsSelected()){
+            return $option->getValue();
+        }
+    }
+    return "";
+
+
+}
+
 function renderTrafficLightsOnly(CustomField $customField): string
 {
     $reversedFields = ['Sicherheits-Level'];
